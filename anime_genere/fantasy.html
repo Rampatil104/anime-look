@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Fantasy Anime — OtakuSpot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--muted:#9aa6b2;--accent:#6ef1e0}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:"Poppins",sans-serif;background:linear-gradient(180deg,#05060a,#0b0f17);color:#e6eef6;padding:2rem}
+    .container{max-width:1200px;margin:0 auto}
+    header{display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem}
+    header h1{margin:0;font-size:1.6rem}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem}
+    .card{position:relative;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:.6rem;border:1px solid rgba(255,255,255,0.03);cursor:pointer;transition:transform .18s ease,box-shadow .18s}
+    .card:hover{transform:translateY(-6px);box-shadow:0 12px 28px rgba(2,6,23,0.6)}
+    .thumb{height:220px;border-radius:10px;overflow:hidden;margin-bottom:.6rem;background:#111;background-size:cover;background-position:center}
+    .meta h4{margin:0;font-size:1rem;word-break:break-word}
+    .meta p{margin:.35rem 0 0;color:var(--muted);font-size:.9rem}
+    .info-bubble{position:absolute;left:8px;top:8px;background:rgba(2,6,23,0.9);border:1px solid rgba(255,255,255,0.04);padding:.6rem;border-radius:8px;width:calc(100% - 16px);color:var(--muted);font-size:.85rem;display:none;z-index:20}
+    .card.show-bubble .info-bubble{display:block}
+    .info-bubble strong{color:var(--accent);display:block;margin-bottom:.25rem}
+    /* Modal */
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;padding:2rem;z-index:120;visibility:hidden;opacity:0;transition:opacity .16s,visibility .16s}
+    .modal.active{visibility:visible;opacity:1}
+    .modal-content{width:min(900px,95%);max-height:86vh;background:#071018;border-radius:12px;padding:1rem;overflow:auto;border:1px solid rgba(255,255,255,0.04)}
+    .modal-grid{display:grid;grid-template-columns:220px 1fr;gap:1rem;align-items:start}
+    .modal-poster{height:320px;background-size:cover;background-position:center;border-radius:8px;border:1px solid rgba(255,255,255,0.03)}
+    .modal-close{float:right;font-size:1.4rem;color:var(--muted);cursor:pointer;background:none;border:0}
+    .modal h2{margin:0 0 .25rem}
+    .meta-list{color:var(--muted);font-size:.95rem;margin:0 0 .8rem}
+    .synopsis{color:#dfeaf0;line-height:1.45}
+    .btn-row{display:flex;gap:.6rem;margin-top:1rem}
+    .btn{padding:.5rem .8rem;border-radius:8px;border:0;font-weight:700;cursor:pointer}
+    .btn.primary{background:linear-gradient(90deg,var(--accent),#4b8bff);color:#021}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+    @media (max-width:720px){ .modal-grid{grid-template-columns:1fr} .modal-poster{height:240px} .thumb{height:160px} }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header><h1>Fantasy Anime</h1><div style="margin-left:auto;color:var(--muted)">19 shows</div></header>
+    <section><div class="grid">
+
+      <!-- list of 19 cards -->
+      <div class="card" data-title="Fullmetal Alchemist: Brotherhood">
+        <div class="info-bubble"><strong>Fullmetal Alchemist: Brotherhood</strong><span class="ib-line">Release: 2009 • Episodes: 64</span></div>
+        <div class="thumb" style="background-image:url('images/fullmetal-alchemist-brotherhood.jpg')"></div>
+        <div class="meta"><h4>Fullmetal Alchemist: Brotherhood</h4><p class="muted">Fantasy • Action</p></div>
+      </div>
+
+      <div class="card" data-title="Re:Zero">
+        <div class="info-bubble"><strong>Re:Zero</strong><span class="ib-line">Release: 2016 • Episodes: 50+</span></div>
+        <div class="thumb" style="background-image:url('images/re-zero.jpg')"></div>
+        <div class="meta"><h4>Re:Zero</h4><p class="muted">Fantasy • Isekai</p></div>
+      </div>
+
+      <div class="card" data-title="Konosuba">
+        <div class="info-bubble"><strong>Konosuba</strong><span class="ib-line">Release: 2016 • Episodes: 20+</span></div>
+        <div class="thumb" style="background-image:url('images/konosuba.jpg')"></div>
+        <div class="meta"><h4>Konosuba</h4><p class="muted">Fantasy • Comedy</p></div>
+      </div>
+
+      <div class="card" data-title="That Time I Got Reincarnated as a Slime">
+        <div class="info-bubble"><strong>That Time I Got Reincarnated as a Slime</strong><span class="ib-line">Release: 2018 • Episodes: 50+</span></div>
+        <div class="thumb" style="background-image:url('images/that-time-i-got-reincarnated-as-a-slime.jpg')"></div>
+        <div class="meta"><h4>That Time I Got Reincarnated as a Slime</h4><p class="muted">Fantasy • Isekai</p></div>
+      </div>
+
+      <div class="card" data-title="Overlord">
+        <div class="info-bubble"><strong>Overlord</strong><span class="ib-line">Release: 2015 • Episodes: 40+</span></div>
+        <div class="thumb" style="background-image:url('images/overlord.jpg')"></div>
+        <div class="meta"><h4>Overlord</h4><p class="muted">Fantasy • Dark</p></div>
+      </div>
+
+      <div class="card" data-title="Made in Abyss">
+        <div class="info-bubble"><strong>Made in Abyss</strong><span class="ib-line">Release: 2017 • Episodes: 24+</span></div>
+        <div class="thumb" style="background-image:url('images/made-in-abyss.jpg')"></div>
+        <div class="meta"><h4>Made in Abyss</h4><p class="muted">Fantasy • Adventure</p></div>
+      </div>
+
+      <div class="card" data-title="Mushoku Tensei: Jobless Reincarnation">
+        <div class="info-bubble"><strong>Mushoku Tensei</strong><span class="ib-line">Release: 2021 • Episodes: 24+</span></div>
+        <div class="thumb" style="background-image:url('images/mushoku-tensei-jobless-reincarnation.jpg')"></div>
+        <div class="meta"><h4>Mushoku Tensei: Jobless Reincarnation</h4><p class="muted">Fantasy • Isekai</p></div>
+      </div>
+
+      <div class="card" data-title="The Rising of the Shield Hero">
+        <div class="info-bubble"><strong>The Rising of the Shield Hero</strong><span class="ib-line">Release: 2019 • Episodes: 40+</span></div>
+        <div class="thumb" style="background-image:url('images/the-rising-of-the-shield-hero.jpg')"></div>
+        <div class="meta"><h4>The Rising of the Shield Hero</h4><p class="muted">Fantasy • Isekai</p></div>
+      </div>
+
+      <div class="card" data-title="Fate/Zero">
+        <div class="info-bubble"><strong>Fate/Zero</strong><span class="ib-line">Release: 2011 • Episodes: 25</span></div>
+        <div class="thumb" style="background-image:url('images/fate-zero.jpg')"></div>
+        <div class="meta"><h4>Fate/Zero</h4><p class="muted">Fantasy • Action</p></div>
+      </div>
+
+      <div class="card" data-title="Black Clover">
+        <div class="info-bubble"><strong>Black Clover</strong><span class="ib-line">Release: 2017 • Episodes: 170+</span></div>
+        <div class="thumb" style="background-image:url('images/black-clover.jpg')"></div>
+        <div class="meta"><h4>Black Clover</h4><p class="muted">Fantasy • Magic</p></div>
+      </div>
+
+      <div class="card" data-title="Attack on Titan">
+        <div class="info-bubble"><strong>Attack on Titan</strong><span class="ib-line">Release: 2013 • Episodes: 75+</span></div>
+        <div class="thumb" style="background-image:url('images/attack-on-titan.jpg')"></div>
+        <div class="meta"><h4>Attack on Titan</h4><p class="muted">Fantasy • Action</p></div>
+      </div>
+
+      <div class="card" data-title="Sword Art Online">
+        <div class="info-bubble"><strong>Sword Art Online</strong><span class="ib-line">Release: 2012 • Episodes: 96+</span></div>
+        <div class="thumb" style="background-image:url('images/sword-art-online.jpg')"></div>
+        <div class="meta"><h4>Sword Art Online</h4><p class="muted">Fantasy • Isekai</p></div>
+      </div>
+
+      <div class="card" data-title="Fairy Tail">
+        <div class="info-bubble"><strong>Fairy Tail</strong><span class="ib-line">Release: 2009 • Episodes: 300+</span></div>
+        <div class="thumb" style="background-image:url('images/fairy-tail.jpg')"></div>
+        <div class="meta"><h4>Fairy Tail</h4><p class="muted">Fantasy • Magic</p></div>
+      </div>
+
+      <div class="card" data-title="The Seven Deadly Sins">
+        <div class="info-bubble"><strong>The Seven Deadly Sins</strong><span class="ib-line">Release: 2014 • Episodes: 100+</span></div>
+        <div class="thumb" style="background-image:url('images/the-seven-deadly-sins.jpg')"></div>
+        <div class="meta"><h4>The Seven Deadly Sins</h4><p class="muted">Fantasy • Adventure</p></div>
+      </div>
+
+      <div class="card" data-title="The Ancient Magus’ Bride">
+        <div class="info-bubble"><strong>The Ancient Magus’ Bride</strong><span class="ib-line">Release: 2017 • Episodes: 24+</span></div>
+        <div class="thumb" style="background-image:url('images/the-ancient-magus-bride.jpg')"></div>
+        <div class="meta"><h4>The Ancient Magus’ Bride</h4><p class="muted">Fantasy • Romance</p></div>
+      </div>
+
+      <div class="card" data-title="Howl’s Moving Castle">
+        <div class="info-bubble"><strong>Howl’s Moving Castle</strong><span class="ib-line">Release: 2004 • Movie</span></div>
+        <div class="thumb" style="background-image:url('images/howls-moving-castle.jpg')"></div>
+        <div class="meta"><h4>Howl’s Moving Castle</h4><p class="muted">Fantasy • Movie</p></div>
+      </div>
+
+      <div class="card" data-title="Spice and Wolf">
+        <div class="info-bubble"><strong>Spice and Wolf</strong><span class="ib-line">Release: 2008 • Episodes: 24</span></div>
+        <div class="thumb" style="background-image:url('images/spice-and-wolf.jpg')"></div>
+        <div class="meta"><h4>Spice and Wolf</h4><p class="muted">Fantasy • Adventure</p></div>
+      </div>
+
+      <div class="card" data-title="Claymore">
+        <div class="info-bubble"><strong>Claymore</strong><span class="ib-line">Release: 2007 • Episodes: 26</span></div>
+        <div class="thumb" style="background-image:url('images/claymore.jpg')"></div>
+        <div class="meta"><h4>Claymore</h4><p class="muted">Fantasy • Dark</p></div>
+      </div>
+
+      <div class="card" data-title="No Game No Life">
+        <div class="info-bubble"><strong>No Game No Life</strong><span class="ib-line">Release: 2014 • Episodes: 12</span></div>
+        <div class="thumb" style="background-image:url('images/no-game-no-life.jpg')"></div>
+        <div class="meta"><h4>No Game No Life</h4><p class="muted">Fantasy • Game</p></div>
+      </div>
+
+    </div></section>
+    
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal" role="dialog" aria-hidden="true">
+    <div class="modal-content" role="document">
+      <button id="closeModal" class="modal-close" aria-label="Close">✕</button>
+      <div class="modal-grid">
+        <div id="modalPoster" class="modal-poster" style="background-image:url('')"></div>
+        <div>
+          <h2 id="modalTitle">Title</h2>
+          <div class="meta-list" id="modalMeta">Release • Episodes • Studio</div>
+          <div class="synopsis" id="modalSynopsis">Full synopsis will appear here.</div>
+          <div class="btn-row">
+            <button id="searchBtn" class="btn ghost">Search web</button>
+            <button id="closeBtn" class="btn primary">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // auto info for fantasy
+    const animeInfo = {
+      "Fullmetal Alchemist: Brotherhood": { year:"2009", episodes:"64", studio:"Bones", synopsis:"Two brothers use alchemy to search for the Philosopher's Stone and restore their bodies." },
+      "Re:Zero": { year:"2016", episodes:"50+", studio:"White Fox", synopsis:"A young man is repeatedly killed and resurrected after being summoned to a fantasy world." },
+      "Konosuba": { year:"2016", episodes:"20+", studio:"Studio Deen", synopsis:"A hapless hero and his imperfect party bumble through hilarious isekai misadventures." },
+      "That Time I Got Reincarnated as a Slime": { year:"2018", episodes:"50+", studio:"8bit", synopsis:"A man is reborn as a slime and builds a peaceful monster nation." },
+      "Overlord": { year:"2015", episodes:"40+", studio:"Madhouse", synopsis:"A powerful player stays in the game as his avatar to dominate a new world." },
+      "Made in Abyss": { year:"2017", episodes:"24+", studio:"Kinema Citrus", synopsis:"A girl and a robot descend into a mysterious, dangerous pit to find her mother." },
+      "Mushoku Tensei: Jobless Reincarnation": { year:"2021", episodes:"24+", studio:"Studio Bind", synopsis:"A man reincarnates in a fantasy world and seeks to live his second life properly." },
+      "The Rising of the Shield Hero": { year:"2019", episodes:"40+", studio:"Kinema Citrus", synopsis:"A falsely accused hero fights to clear his name and protect the world." },
+      "Fate/Zero": { year:"2011", episodes:"25", studio:"ufotable", synopsis:"Magi and heroic spirits fight in a deadly battle for the Holy Grail." },
+      "Black Clover": { year:"2017", episodes:"170+", studio:"Pierrot", synopsis:"An orphan with no magic aims to become the Wizard King." },
+      "Attack on Titan": { year:"2013", episodes:"75+", studio:"WIT Studio / MAPPA", synopsis:"Humanity battles giant humanoid Titans after sheltering behind enormous walls." },
+      "Sword Art Online": { year:"2012", episodes:"96+", studio:"A-1 Pictures", synopsis:"Players trapped in an MMO must clear the game to survive." },
+      "Fairy Tail": { year:"2009", episodes:"300+", studio:"A-1 Pictures / Satelight", synopsis:"A guild of wizards takes on quests and battles to protect friends." },
+      "The Seven Deadly Sins": { year:"2014", episodes:"100+", studio:"A-1 Pictures", synopsis:"Knights and magical battles revolve around a fallen kingdom and its saviors." },
+      "The Ancient Magus’ Bride": { year:"2017", episodes:"24+", studio:"Wit Studio", synopsis:"A young woman enters an arranged apprenticeship with a mysterious magus." },
+      "Howl’s Moving Castle": { year:"2004", episodes:"Movie", studio:"Studio Ghibli", synopsis:"A girl is transformed into an old woman and meets a wizard in a moving castle." },
+      "Spice and Wolf": { year:"2008", episodes:"24", studio:"Imagin", synopsis:"A traveling merchant teams up with a wolf-deity to travel and trade." },
+      "Claymore": { year:"2007", episodes:"26", studio:"Madhouse", synopsis:"Female warriors fight shape-shifting demons in a dark medieval world." },
+      "No Game No Life": { year:"2014", episodes:"12", studio:"Madhouse", synopsis:"Sibling gamers are transported to a world decided by games." }
+    };
+
+    // modal logic (same as action/comedy)
+    const modal = document.getElementById('modal');
+    const closeModalBtn = document.getElementById('closeModal');
+    const closeBtn = document.getElementById('closeBtn');
+    const searchBtn = document.getElementById('searchBtn');
+    const modalPoster = document.getElementById('modalPoster');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalMeta = document.getElementById('modalMeta');
+    const modalSynopsis = document.getElementById('modalSynopsis');
+
+    function openModalFrom(title, posterUrl){
+      const info = animeInfo[title] || {};
+      modalPoster.style.backgroundImage = `url('${posterUrl}')`;
+      modalTitle.textContent = title;
+      modalMeta.textContent = `Release: ${info.year || '—'} • Episodes: ${info.episodes || '—'} • Studio: ${info.studio || '—'}`;
+      modalSynopsis.textContent = info.synopsis || 'Synopsis not available.';
+      modal.classList.add('active'); modal.setAttribute('aria-hidden','false');
+      searchBtn.onclick = ()=> window.open('https://www.google.com/search?q='+encodeURIComponent(title), '_blank');
+      closeBtn.onclick = closeModal; closeModalBtn.onclick = closeModal;
+    }
+    function closeModal(){ modal.classList.remove('active'); modal.setAttribute('aria-hidden','true'); }
+
+    document.querySelectorAll('.card').forEach(card=>{
+      const title = card.dataset.title || card.querySelector('.meta h4').textContent.trim();
+      const thumb = card.querySelector('.thumb');
+      const bg = thumb ? getComputedStyle(thumb).backgroundImage : '';
+      const posterUrl = (bg && bg.startsWith('url')) ? bg.slice(4,-1).replace(/["']/g,'') : '';
+      card.addEventListener('mouseenter', ()=>{
+        const bubble = card.querySelector('.info-bubble');
+        const info = animeInfo[title] || {};
+        bubble.querySelector('.ib-line').textContent = `Release: ${info.year || '—'} • Episodes: ${info.episodes || '—'}`;
+        card.classList.add('show-bubble');
+      });
+      card.addEventListener('mouseleave', ()=> card.classList.remove('show-bubble'));
+      card.addEventListener('click', ()=> openModalFrom(title, posterUrl || 'images/placeholder.jpg'));
+    });
+
+    modal.addEventListener('click', (e)=>{ if(e.target === modal) closeModal(); });
+  </script>
+</body>
+</html>

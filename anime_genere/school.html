@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>School Anime — OtakuSpot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--muted:#9aa6b2;--accent:#6ef1e0}
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:"Poppins",sans-serif;
+      background:linear-gradient(180deg,#05060a,#0b0f17);
+      color:#e6eef6;
+      padding:2rem;
+    }
+    .container{max-width:1200px;margin:0 auto}
+    header{display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem}
+    header h1{margin:0;font-size:1.6rem}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem}
+    .card{
+      position:relative;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:12px;
+      padding:.6rem;
+      border:1px solid rgba(255,255,255,0.03);
+      cursor:pointer;
+      transition:transform .18s ease,box-shadow .18s
+    }
+    .card:hover{transform:translateY(-6px);box-shadow:0 12px 28px rgba(2,6,23,0.6)}
+    .thumb{
+      height:220px;border-radius:10px;overflow:hidden;
+      margin-bottom:.6rem;background:#111;background-size:cover;background-position:center
+    }
+    .meta h4{margin:0;font-size:1rem;word-break:break-word}
+    .meta p{margin:.35rem 0 0;color:var(--muted);font-size:.9rem}
+
+    .info-bubble{
+      position:absolute;left:8px;top:8px;
+      background:rgba(2,6,23,0.9);
+      border:1px solid rgba(255,255,255,0.04);
+      padding:.6rem;border-radius:8px;
+      width:calc(100% - 16px);
+      color:var(--muted);font-size:.85rem;
+      display:none;z-index:20;
+    }
+    .card.show-bubble .info-bubble{display:block}
+    .info-bubble strong{color:var(--accent);display:block;margin-bottom:.25rem}
+
+    .modal{
+      position:fixed;inset:0;
+      background:rgba(0,0,0,0.7);
+      display:flex;align-items:center;justify-content:center;
+      padding:2rem;z-index:120;
+      visibility:hidden;opacity:0;
+      transition:opacity .16s,visibility .16s
+    }
+    .modal.active{visibility:visible;opacity:1}
+    .modal-content{
+      width:min(900px,95%);
+      max-height:86vh;
+      background:#071018;
+      border-radius:12px;
+      padding:1rem;
+      overflow:auto;
+      border:1px solid rgba(255,255,255,0.04)
+    }
+    .modal-grid{display:grid;grid-template-columns:220px 1fr;gap:1rem;align-items:start}
+    .modal-poster{
+      height:320px;background-size:cover;background-position:center;
+      border-radius:8px;border:1px solid rgba(255,255,255,0.03)
+    }
+    .modal-close{float:right;font-size:1.4rem;color:var(--muted);cursor:pointer;background:none;border:0}
+    .modal h2{margin:0 0 .25rem}
+    .meta-list{color:var(--muted);font-size:.95rem;margin:0 0 .8rem}
+    .synopsis{color:#dfeaf0;line-height:1.45}
+    .btn-row{display:flex;gap:.6rem;margin-top:1rem}
+    .btn{padding:.5rem .8rem;border-radius:8px;border:0;font-weight:700;cursor:pointer}
+    .btn.primary{background:linear-gradient(90deg,var(--accent),#4b8bff);color:#021}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+    @media (max-width:640px){ .thumb{height:160px} .modal-grid{grid-template-columns:1fr} .modal-poster{height:240px} }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>School Anime</h1>
+      <div style="margin-left:auto;color:var(--muted)">18 shows</div>
+    </header>
+
+    <section>
+      <div class="grid">
+
+        <!-- cards copied from your original file -->
+        <div class="card" data-title="Toradora!">
+          <div class="info-bubble"><strong>Toradora!</strong><span class="ib-line">Release: 2008 • Episodes: 25</span></div>
+          <div class="thumb" style="background-image:url('images/toradora.jpg')"></div>
+          <div class="meta"><h4>Toradora!</h4><p class="muted">School • Romance</p></div>
+        </div>
+
+        <div class="card" data-title="Horimiya">
+          <div class="info-bubble"><strong>Horimiya</strong><span class="ib-line">Release: 2021 • Episodes: 13</span></div>
+          <div class="thumb" style="background-image:url('images/horimiya.jpg')"></div>
+          <div class="meta"><h4>Horimiya</h4><p class="muted">School • Romance</p></div>
+        </div>
+
+        <div class="card" data-title="Your Lie in April">
+          <div class="info-bubble"><strong>Your Lie in April</strong><span class="ib-line">Release: 2014 • Episodes: 22</span></div>
+          <div class="thumb" style="background-image:url('images/your-lie-in-april.jpg')"></div>
+          <div class="meta"><h4>Your Lie in April</h4><p class="muted">School • Drama</p></div>
+        </div>
+
+        <div class="card" data-title="Kaguya-sama: Love is War">
+          <div class="info-bubble"><strong>Kaguya-sama: Love is War</strong><span class="ib-line">Release: 2019 • Episodes: 36+</span></div>
+          <div class="thumb" style="background-image:url('images/kaguya-sama-love-is-war.jpg')"></div>
+          <div class="meta"><h4>Kaguya-sama: Love is War</h4><p class="muted">School • Romance</p></div>
+        </div>
+
+        <div class="card" data-title="The Dangers in My Heart">
+          <div class="info-bubble"><strong>The Dangers in My Heart</strong><span class="ib-line">Release: 2023 • Episodes: 12+</span></div>
+          <div class="thumb" style="background-image:url('images/the-dangers-in-my-heart.jpg')"></div>
+          <div class="meta"><h4>The Dangers in My Heart</h4><p class="muted">School • Romance</p></div>
+        </div>
+
+        <div class="card" data-title="Fruits Basket (2019)">
+          <div class="info-bubble"><strong>Fruits Basket (2019)</strong><span class="ib-line">Release: 2019 • Episodes: 63</span></div>
+          <div class="thumb" style="background-image:url('images/fruits-basket-2019.jpg')"></div>
+          <div class="meta"><h4>Fruits Basket (2019)</h4><p class="muted">School • Drama</p></div>
+        </div>
+
+        <div class="card" data-title="My Dress-Up Darling">
+          <div class="info-bubble"><strong>My Dress-Up Darling</strong><span class="ib-line">Release: 2022 • Episodes: 12</span></div>
+          <div class="thumb" style="background-image:url('images/my-dress-up-darling.jpg')"></div>
+          <div class="meta"><h4>My Dress-Up Darling</h4><p class="muted">School • Romance</p></div>
+        </div>
+
+        <div class="card" data-title="Clannad">
+          <div class="info-bubble"><strong>Clannad</strong><span class="ib-line">Release: 2007 • Episodes: 23</span></div>
+          <div class="thumb" style="background-image:url('images/clannad.jpg')"></div>
+          <div class="meta"><h4>Clannad</h4><p class="muted">School • Drama</p></div>
+        </div>
+
+        <div class="card" data-title="Clannad: After Story">
+          <div class="info-bubble"><strong>Clannad: After Story</strong><span class="ib-line">Release: 2008 • Episodes: 24</span></div>
+          <div class="thumb" style="background-image:url('images/clannad-after-story.jpg')"></div>
+          <div class="meta"><h4>Clannad: After Story</h4><p class="muted">School • Drama</p></div>
+        </div>
+
+        <div class="card" data-title="ReLIFE">
+          <div class="info-bubble"><strong>ReLIFE</strong><span class="ib-line">Release: 2016 • Episodes: 13</span></div>
+          <div class="thumb" style="background-image:url('images/relife.jpg')"></div>
+          <div class="meta"><h4>ReLIFE</h4><p class="muted">School • Drama</p></div>
+        </div>
+
+        <div class="card" data-title="K-On!">
+          <div class="info-bubble"><strong>K-On!</strong><span class="ib-line">Release: 2009 • Episodes: 39</span></div>
+          <div class="thumb" style="background-image:url('images/k-on.jpg')"></div>
+          <div class="meta"><h4>K-On!</h4><p class="muted">School • Slice of Life</p></div>
+        </div>
+
+        <div class="card" data-title="Assassination Classroom">
+          <div class="info-bubble"><strong>Assassination Classroom</strong><span class="ib-line">Release: 2015 • Episodes: 47</span></div>
+          <div class="thumb" style="background-image:url('images/assassination-classroom.jpg')"></div>
+          <div class="meta"><h4>Assassination Classroom</h4><p class="muted">School • Action</p></div>
+        </div>
+
+        <div class="card" data-title="Hyouka">
+          <div class="info-bubble"><strong>Hyouka</strong><span class="ib-line">Release: 2012 • Episodes: 22</span></div>
+          <div class="thumb" style="background-image:url('images/hyouka.jpg')"></div>
+          <div class="meta"><h4>Hyouka</h4><p class="muted">School • Mystery</p></div>
+        </div>
+
+        <div class="card" data-title="Blue Spring Ride">
+          <div class="info-bubble"><strong>Blue Spring Ride</strong><span class="ib-line">Release: 2014 • Episodes: 12</span></div>
+          <div class="thumb" style="background-image:url('images/blue-spring-ride.jpg')"></div>
+          <div class="meta"><h4>Blue Spring Ride</h4><p class="muted">School • Romance</p></div>
+        </div>
+
+        <div class="card" data-title="Bottom-Tier Character Tomozaki">
+          <div class="info-bubble"><strong>Bottom-Tier Character Tomozaki</strong><span class="ib-line">Release: 2021 • Episodes: 12+</span></div>
+          <div class="thumb" style="background-image:url('images/bottom-tier-character-tomozaki.jpg')"></div>
+          <div class="meta"><h4>Bottom-Tier Character Tomozaki</h4><p class="muted">School • Drama</p></div>
+        </div>
+
+        <div class="card" data-title="Oregairu (SNAFU)">
+          <div class="info-bubble"><strong>Oregairu (SNAFU)</strong><span class="ib-line">Release: 2013 • Episodes: 39</span></div>
+          <div class="thumb" style="background-image:url('images/oregairu.jpg')"></div>
+          <div class="meta"><h4>Oregairu (SNAFU)</h4><p class="muted">School • Drama</p></div>
+        </div>
+
+        <div class="card" data-title="The Pet Girl of Sakurasou">
+          <div class="info-bubble"><strong>The Pet Girl of Sakurasou</strong><span class="ib-line">Release: 2012 • Episodes: 24</span></div>
+          <div class="thumb" style="background-image:url('images/the-pet-girl-of-sakurasou.jpg')"></div>
+          <div class="meta"><h4>The Pet Girl of Sakurasou</h4><p class="muted">School • Romance</p></div>
+        </div>
+
+        <div class="card" data-title="Daily Lives of High School Boys">
+          <div class="info-bubble"><strong>Daily Lives of High School Boys</strong><span class="ib-line">Release: 2012 • Episodes: 12</span></div>
+          <div class="thumb" style="background-image:url('images/daily-lives-of-high-school-boys.jpg')"></div>
+          <div class="meta"><h4>Daily Lives of High School Boys</h4><p class="muted">School • Comedy</p></div>
+        </div>
+
+      </div>
+    </section>
+
+  
+  </div>
+
+  <!-- modal -->
+  <div id="modal" class="modal" role="dialog" aria-hidden="true">
+    <div class="modal-content" role="document">
+      <button id="closeModal" class="modal-close" aria-label="Close">✕</button>
+      <div class="modal-grid">
+        <div id="modalPoster" class="modal-poster"></div>
+        <div>
+          <h2 id="modalTitle">Title</h2>
+          <div class="meta-list" id="modalMeta">Release • Episodes • Studio</div>
+          <div class="synopsis" id="modalSynopsis">Synopsis</div>
+          <div class="btn-row">
+            <button id="searchBtn" class="btn ghost">Search web</button>
+            <button id="closeBtn" class="btn primary">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const animeInfo = {
+      "Toradora!":{year:"2008",episodes:"25",studio:"J.C.Staff",synopsis:"A loud girl and quiet boy team up to handle their crushes."},
+      "Horimiya":{year:"2021",episodes:"13",studio:"CloverWorks",synopsis:"Two classmates reveal their hidden personalities to each other."},
+      "Your Lie in April":{year:"2014",episodes:"22",studio:"A-1 Pictures",synopsis:"A pianist regains his love for music through a violinist."},
+      "Kaguya-sama: Love is War":{year:"2019",episodes:"36+",studio:"A-1 Pictures",synopsis:"Student council geniuses battle in love mindgames."},
+      "The Dangers in My Heart":{year:"2023",episodes:"12+",studio:"Shin-Ei Animation",synopsis:"A gloomy boy slowly opens up to a cheerful classmate."},
+      "Fruits Basket (2019)":{year:"2019",episodes:"63",studio:"TMS Entertainment",synopsis:"A girl lives with a family cursed by the zodiac."},
+      "My Dress-Up Darling":{year:"2022",episodes:"12",studio:"CloverWorks",synopsis:"A cosplayer and a craftsman grow close through costumes."},
+      "Clannad":{year:"2007",episodes:"23",studio:"Kyoto Animation",synopsis:"A delinquent learns about family and friendship at school."},
+      "Clannad: After Story":{year:"2008",episodes:"24",studio:"Kyoto Animation",synopsis:"Follows Tomoya's adult life after high school."},
+      "ReLIFE":{year:"2016",episodes:"13",studio:"TMS Entertainment",synopsis:"A man gets a second chance in a high school experiment."},
+      "K-On!":{year:"2009",episodes:"39",studio:"Kyoto Animation",synopsis:"A light music club of girls forms a band."},
+      "Assassination Classroom":{year:"2015",episodes:"47",studio:"Lerche",synopsis:"Students must assassinate their super-powered teacher before graduation."},
+      "Hyouka":{year:"2012",episodes:"22",studio:"Kyoto Animation",synopsis:"A lazy boy joins a club and solves everyday mysteries."},
+      "Blue Spring Ride":{year:"2014",episodes:"12",studio:"Production I.G",synopsis:"A high school girl reconnects with her first love."},
+      "Bottom-Tier Character Tomozaki":{year:"2021",episodes:"12+",studio:"Project No.9",synopsis:"A gamer views life as a bad game and learns social skills."},
+      "Oregairu (SNAFU)":{year:"2013",episodes:"39",studio:"Brain's Base / feel.",synopsis:"A loner joins a service club and faces complex relationships."},
+      "The Pet Girl of Sakurasou":{year:"2012",episodes:"24",studio:"J.C.Staff",synopsis:"Artistic misfits pursue dreams and romance in a dorm."},
+      "Daily Lives of High School Boys":{year:"2012",episodes:"12",studio:"Sunrise",synopsis:"Three boys' everyday high school shenanigans."}
+    };
+
+    const modal = document.getElementById('modal');
+    const closeModalBtn = document.getElementById('closeModal');
+    const closeBtn = document.getElementById('closeBtn');
+    const searchBtn = document.getElementById('searchBtn');
+    const modalPoster = document.getElementById('modalPoster');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalMeta = document.getElementById('modalMeta');
+    const modalSynopsis = document.getElementById('modalSynopsis');
+
+    function openModalFrom(title, posterUrl){
+      const info = animeInfo[title] || {};
+      modalPoster.style.backgroundImage = `url('${posterUrl}')`;
+      modalTitle.textContent = title;
+      modalMeta.textContent = `Release: ${info.year || '—'} • Episodes: ${info.episodes || '—'} • Studio: ${info.studio || '—'}`;
+      modalSynopsis.textContent = info.synopsis || 'Synopsis not available.';
+      modal.classList.add('active');
+      modal.setAttribute('aria-hidden','false');
+
+      searchBtn.onclick = ()=> window.open('https://www.google.com/search?q=' + encodeURIComponent(title), '_blank');
+      closeBtn.onclick = closeModal;
+      closeModalBtn.onclick = closeModal;
+    }
+    function closeModal(){
+      modal.classList.remove('active');
+      modal.setAttribute('aria-hidden','true');
+    }
+
+    document.querySelectorAll('.card').forEach(card=>{
+      const title = card.dataset.title || card.querySelector('.meta h4').textContent.trim();
+      const thumb = card.querySelector('.thumb');
+      const bg = thumb ? getComputedStyle(thumb).backgroundImage : '';
+      const posterUrl = (bg && bg.startsWith('url')) ? bg.slice(4,-1).replace(/["']/g,'') : '';
+
+      card.addEventListener('mouseenter', ()=>{
+        const bubble = card.querySelector('.info-bubble');
+        const info = animeInfo[title] || {};
+        bubble.querySelector('.ib-line').textContent =
+          `Release: ${info.year || '—'} • Episodes: ${info.episodes || '—'}`;
+        card.classList.add('show-bubble');
+      });
+
+      card.addEventListener('mouseleave', ()=> card.classList.remove('show-bubble'));
+
+      card.addEventListener('click', ()=> openModalFrom(title, posterUrl || 'images/placeholder.jpg'));
+    });
+
+    modal.addEventListener('click', (e)=>{ if(e.target === modal) closeModal(); });
+  </script>
+</body>
+</html>

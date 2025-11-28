@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Otaku Spot — Anime Showcase</title>
+
+  <!-- Google font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ---------- Reset & base ---------- */
+    :root{
+      --bg:#0b0f17; --card:#0f1720; --accent:#6ef1e0; --muted:#9aa6b2; --glass: rgba(255,255,255,0.04);
+      --radius:14px; --maxw:1200px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:"Poppins",system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      background:linear-gradient(180deg,#05060a 0%, #0b0f17 100%);
+      color:#e6eef6;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding-bottom:4rem;
+    }
+    a{color:inherit;text-decoration:none}
+
+    .container{max-width:var(--maxw);margin:0 auto;padding:2rem;}
+    header{
+      position:sticky;top:0;z-index:60;
+      backdrop-filter: blur(6px);
+      background: linear-gradient(180deg, rgba(10,12,16,0.6), rgba(10,12,16,0.35));
+      border-bottom:1px solid rgba(255,255,255,0.03);
+    }
+    .nav-inner{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;gap:1rem;padding:1rem 1rem;}
+    .logo{font-weight:700;font-size:1.6rem;display:flex;align-items:center;gap:.6rem}
+    .logo .mark{width:36px;height:36px;border-radius:8px;background:linear-gradient(45deg,var(--accent),#4b8bff);display:inline-block}
+    nav{margin-left:auto;display:flex;gap:1rem;align-items:center}
+    nav a{padding:.6rem .9rem;border-radius:8px;color:var(--muted);font-weight:600;font-size:0.95rem}
+    nav a:hover{color:var(--accent);background:var(--glass)}
+
+    /* mobile menu button */
+    .menu-btn{display:none;background:none;border:0;color:var(--muted);font-size:1.6rem;padding:.2rem .6rem;border-radius:8px}
+    .search-input{min-width:210px;padding:.5rem .8rem;background:transparent;border:1px solid rgba(255,255,255,0.04);border-radius:10px;color:var(--muted);font-size:.95rem}
+    .cta{background:linear-gradient(90deg,var(--accent),#4b8bff);padding:.6rem .9rem;border-radius:10px;font-weight:700;color:#021;box-shadow:0 6px 18px rgba(110,241,224,0.08)}
+
+    /* genres menu */
+    .genres-dropdown { position: relative; display: inline-block; }
+    .genres-dropdown button { background: none; border: 0; color: var(--muted); font-weight: 600; padding: .6rem .9rem; border-radius: 8px; cursor: pointer; font-size: 0.95rem; }
+    .genres-dropdown button:hover { color: var(--accent); background: var(--glass); }
+    .genres-menu { position: absolute; right: 0; top: calc(100% + 8px); background: linear-gradient(180deg, rgba(10,12,16,0.98), rgba(6,8,12,0.98)); border-radius: 10px; box-shadow: 0 10px 30px rgba(2,6,23,0.6); border: 1px solid rgba(255,255,255,0.03); padding: .5rem; display: none; z-index: 80; min-width: 200px; }
+    .genres-menu a { display: block; padding: .6rem .7rem; color: var(--muted); text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 0.95rem; }
+    .genres-menu a:hover { color: var(--accent); background: rgba(255,255,255,0.02); }
+    .genres-dropdown.open .genres-menu { display: block; }
+
+    @media (max-width:940px){
+      .hero{grid-template-columns:1fr;gap:1rem}
+      .poster{height:320px}
+      .contact-right{display:none}
+      nav{display:none}
+      .menu-btn{display:inline-block;margin-left:auto}
+      .genres-menu{position:static;width:100%;box-shadow:none}
+      .genres-dropdown button{width:100%;text-align:left}
+    }
+
+    /* ---------- Rest of original styles (hero, cards, modal, contact) ---------- */
+    /* hero */
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:2rem;align-items:center;padding:3rem 1rem 1.5rem}
+    .hero-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:var(--radius);padding:2rem;box-shadow: 0 10px 30px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03)}
+    .hero h1{font-size:2.6rem;margin:0 0 .4rem;line-height:1.02}
+    .hero p{color:var(--muted);margin:0 0 1.25rem}
+    .tags{display:flex;gap:.5rem;flex-wrap:wrap}
+    .tag{background:rgba(255,255,255,0.03);padding:.4rem .7rem;border-radius:999px;font-size:.85rem;color:var(--muted)}
+
+    /* spotlight / poster */
+    .poster{height:420px;border-radius:12px;overflow:hidden;background-size:cover;background-position:center;box-shadow:0 16px 40px rgba(2,6,23,0.7);display:flex;align-items:flex-end;padding:1rem}
+    .poster .poster-info{background:linear-gradient(180deg,transparent, rgba(0,0,0,0.6));padding:.8rem;border-radius:10px;color:#fff;width:100%}
+    .poster .poster-title{font-size:1.25rem;font-weight:700;margin:0}
+    .poster .poster-meta{font-size:.9rem;color:var(--muted);margin-top:.4rem}
+
+    /* gallery */
+    .section-title{display:flex;align-items:center;justify-content:space-between;margin:2rem 0 1rem}
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+      gap:1rem;
+    }
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:.6rem;border:1px solid rgba(255,255,255,0.03);cursor:pointer;transition:transform .18s ease,box-shadow .18s}
+    .card:hover{transform:translateY(-6px);box-shadow:0 12px 28px rgba(2,6,23,0.6)}
+    .thumb{height:220px;border-radius:10px;overflow:hidden;margin-bottom:.6rem;background:#111;background-size:cover;background-position:center}
+    .meta h4{margin:0;font-size:1rem}
+    .meta p{margin:.35rem 0 0;color:var(--muted);font-size:.9rem}
+
+    /* new info modal */
+    .info-modal { position:fixed; inset:0; background:rgba(2,6,10,0.75); display:flex; align-items:center; justify-content:center; padding:24px; z-index:200; visibility:hidden; opacity:0; transition:opacity .12s, visibility .12s; }
+    .info-modal.active { visibility:visible; opacity:1; }
+    .info-card { width:min(980px,96%); max-height:86vh; background:#071018; border-radius:12px; overflow:auto; display:flex; gap:16px; border:1px solid rgba(255,255,255,0.04); box-shadow:0 30px 80px rgba(2,8,12,.8); }
+    .info-left { min-width:360px; background-size:cover; background-position:center; border-radius:12px 0 0 12px; }
+    .info-right { padding:20px; color:#dff1ff; flex:1; overflow:auto; }
+    .info-right h2 { margin:0 0 6px; }
+    .meta-line { color:var(--muted); margin-bottom:12px; }
+    .section { margin-bottom:12px; }
+    .section strong { display:block; margin-bottom:8px; color:#fff; }
+    .person { margin-bottom:8px; font-size:14px; color:#cfe7ff; }
+    .close-btn { position:absolute; right:18px; top:18px; background:transparent; border:0; color:#cfe7ff; font-size:20px; cursor:pointer; }
+    @media (max-width:880px) {
+      .info-card { flex-direction:column; }
+      .info-left { min-width:0; height:240px; border-radius:12px 12px 0 0; }
+    }
+
+    /* contact */
+    .contact-card{display:flex;gap:1rem;align-items:stretch;padding:1rem;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03)}
+    .contact-left{flex:1;padding:1rem}
+    .contact-right{width:360px;padding:1rem;border-left:1px dashed rgba(255,255,255,0.03)}
+    .input,textarea{width:100%;padding:.7rem .8rem;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted);resize:vertical}
+    textarea{min-height:120px}
+
+    footer{padding:2rem 0 5rem;color:var(--muted);font-size:.9rem;text-align:center;margin-top:2rem}
+  </style>
+</head>
+<body>
+
+  <!-- header -->
+  <header>
+    <div class="nav-inner">
+      <div class="logo"></span>Otaku Spot</div>
+
+      <!-- NAV: unchanged links plus Genres dropdown -->
+      <nav aria-label="main navigation">
+        <a href="#spotlight">Spotlight</a>
+        <a href="#shows">Shows</a>
+
+        <div class="genres-dropdown" id="genresDropdown">
+          <button id="genresBtn" aria-expanded="false">Genres ▾</button>
+          <div class="genres-menu" id="genresMenu" role="menu" aria-hidden="true">
+            <a role="menuitem" href="anime_genere/action.html" target="_blank" rel="noopener">Action</a>
+            <a role="menuitem" href="anime_genere/shonen.html" target="_blank" rel="noopener">Shonen</a>
+            <a role="menuitem" href="anime_genere/seinen.html" target="_blank" rel="noopener">Seinen</a>
+            <a role="menuitem" href="anime_genere/isekai.html" target="_blank" rel="noopener">Isekai</a>
+            <a role="menuitem" href="anime_genere/fantasy.html" target="_blank" rel="noopener">Fantasy</a>
+            <a role="menuitem" href="anime_genere/romance.html" target="_blank" rel="noopener">Romance</a>
+            <a role="menuitem" href="anime_genere/comedy.html" target="_blank" rel="noopener">Comedy</a>
+            <a role="menuitem" href="anime_genere/school.html" target="_blank" rel="noopener">School</a>
+            <a role="menuitem" href="anime_genere/slice-of-life.html" target="_blank" rel="noopener">Slice of Life</a>
+          </div>
+        </div>
+
+        
+      </nav>
+
+      <input id="search" class="search-input" placeholder="Search anime or tags..." aria-label="Search anime">
+      <button id="menuBtn" class="menu-btn" aria-expanded="false">☰</button>
+      <a class="cta" href="#contact">Join</a>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-card">
+        <h1>Discover the most popular anime list here </h1>
+        <p>number of episodes & This starter template is ready for your images descriptions</p>
+
+        
+
+        <div style="display:flex;gap:.6rem;margin-top:1rem">
+          <a class="cta" href="#shows">Browse Shows</a>
+          <button id="openRandom" class="tag" title="Open a random show">Surprise me 🎲</button>
+        </div>
+
+        <div style="margin-top:1.2rem">
+          <small style="color:var(--muted)">Tip: Click any show card to open details (characters, synopsis).</small>
+        </div>
+      </div>
+
+      <!-- Spotlight / Poster -->
+      <div class="poster" id="spotlightPoster" style="background-image:url('images/spotlight.jpg')">
+        <div class="poster-info">
+          <div class="poster-title">Instagram</div>
+          <div class="poster-meta">Id : <strong>Ram_patil_as_gamer</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Shows / Gallery -->
+    <section id="shows">
+      <div class="section-title">
+        <h2 style="margin:0">Top Picks</h2>
+        
+      </div>
+
+      <!-- ===== Gallery: cards now contain character/info data ===== -->
+      <div class="grid" id="gallery">
+        <!-- One Piece -->
+        <div class="card"
+             data-title="One Piece"
+             data-genre="Action • Adventure"
+             data-year="1999"
+             data-episodes="1000+"
+             data-main="Monkey D. Luffy|Straw-hat pirate; dreams of becoming Pirate King"
+             data-friends="Roronoa Zoro|Swordsman; Nami|Navigator; Sanji|Cook; Usopp|Sniper; Tony Tony Chopper|Doctor; Nico Robin|Archaeologist"
+             data-rival="Marshall D. Teach (Blackbeard)|Powerful antagonist"
+             data-bio="A sprawling pirate epic following Monkey D. Luffy and his crew as they sail the Grand Line in search of the legendary One Piece treasure.">
+          <div class="thumb" style="background-image:url('images/one-piece.jpg')"></div>
+          <div class="meta"><h4>One Piece</h4><p class="muted">Action • 1000+ eps</p></div>
+        </div>
+
+        <!-- Naruto -->
+        <div class="card"
+             data-title="Naruto"
+             data-genre="Shonen • Ninja"
+             data-year="2002"
+             data-episodes="220"
+             data-main="Naruto Uzumaki|Energetic ninja, seeks recognition"
+             data-friends="Sasuke Uchiha|Rival; Sakura Haruno|Teammate; Kakashi Hatake|Sensei"
+             data-rival="Sasuke Uchiha|Former friend turned rival"
+             data-bio="Follows Naruto Uzumaki, a young ninja who aspires to become Hokage and win the respect of his village.">
+          <div class="thumb" style="background-image:url('images/naruto.jpg')"></div>
+          <div class="meta"><h4>Naruto</h4><p class="muted">Shonen • 220 eps</p></div>
+        </div>
+
+        <!-- Bleach -->
+        <div class="card"
+             data-title="Bleach"
+             data-genre="Shonen • Supernatural"
+             data-year="2004"
+             data-episodes="366"
+             data-main="Ichigo Kurosaki|Soul Reaper who protects the living"
+             data-friends="Rukia Kuchiki|Ally; Orihime Inoue|Support; Yasutora 'Chad'|Strong ally"
+             data-rival="Sosuke Aizen|Major antagonist"
+             data-bio="Ichigo obtains Soul Reaper powers and fights hollows and corrupt spirits while discovering his origins.">
+          <div class="thumb" style="background-image:url('images/bleach.jpg')"></div>
+          <div class="meta"><h4>Bleach</h4><p class="muted">Shonen • 366 eps</p></div>
+        </div>
+
+        <!-- Dragon Ball Z -->
+        <div class="card"
+             data-title="Dragon Ball Z"
+             data-genre="Shonen • Action"
+             data-year="1989"
+             data-episodes="291"
+             data-main="Goku (Kakarot)|Saiyan warrior, protects Earth"
+             data-friends="Vegeta|Rival-ally; Gohan|Son; Krillin|Friend"
+             data-rival="Frieza|Galactic tyrant"
+             data-bio="High-octane martial arts and sci-fi adventure following Goku and friends defending Earth from powerful foes.">
+          <div class="thumb" style="background-image:url('images/dragon_ball_z.jpg')"></div>
+          <div class="meta"><h4>Dragon Ball Z</h4><p class="muted">Shonen • Classic</p></div>
+        </div>
+
+        <!-- Attack on Titan -->
+        <div class="card"
+             data-title="Attack on Titan"
+             data-genre="Action • Drama"
+             data-year="2013"
+             data-episodes="75+"
+             data-main="Eren Yeager|Soldier with a shifting fate"
+             data-friends="Mikasa Ackerman|Protector; Armin Arlert|Strategist; Levi Ackerman|Captain"
+             data-rival="Reiner Braun|Warrior from enemy nation"
+             data-bio="Humanity fights for survival inside walls against gigantic Titans; conspiracy and war escalate as secrets are uncovered.">
+          <div class="thumb" style="background-image:url('images/attack-on-titan.jpg')"></div>
+          <div class="meta"><h4>Attack on Titan</h4><p class="muted">Action • 75+ eps</p></div>
+        </div>
+
+        <!-- My Hero Academia -->
+        <div class="card"
+             data-title="My Hero Academia"
+             data-genre="Action • Superhero"
+             data-year="2016"
+             data-episodes="100+"
+             data-main="Izuku Midoriya (Deku)|Aspiring hero with a powerful Quirk"
+             data-friends="Katsuki Bakugo|Rival-ally; Ochaco Uraraka|Friend; Tenya Iida|Class rep"
+             data-rival="Tomura Shigaraki|Villain leader"
+             data-bio="In a world where superpowers are normal, young heroes train to protect society and face villainous threats.">
+          <div class="thumb" style="background-image:url('images/my_hero_academia.jpg')"></div>
+          <div class="meta"><h4>My Hero Academia</h4><p class="muted">Action • 100+ eps</p></div>
+        </div>
+
+        <!-- Demon Slayer -->
+        <div class="card"
+             data-title="Demon Slayer"
+             data-genre="Action • Fantasy"
+             data-year="2019"
+             data-episodes="30+"
+             data-main="Tanjiro Kamado|Kind-hearted demon slayer"
+             data-friends="Nezuko Kamado|Sister/demon; Zenitsu Agatsuma|Ally; Inosuke Hashibira|Wild ally"
+             data-rival="Muzan Kibutsuji|Prime antagonist"
+             data-bio="A young swordsman fights demons to protect his sister and avenge his family while mastering breathing techniques.">
+          <div class="thumb" style="background-image:url('images/demon_slayer.jpg')"></div>
+          <div class="meta"><h4>Demon Slayer</h4><p class="muted">Action • 30+ eps</p></div>
+        </div>
+
+        <!-- Jujutsu Kaisen -->
+        <div class="card"
+             data-title="Jujutsu Kaisen"
+             data-genre="Action • Supernatural"
+             data-year="2020"
+             data-episodes="24+"
+             data-main="Yuji Itadori|Host of the King of Curses"
+             data-friends="Megumi Fushiguro|Ally; Nobara Kugisaki|Ally; Satoru Gojo|Teacher"
+             data-rival="Ryomen Sukuna|Curse bound to Yuji"
+             data-bio="Students at a jujutsu school battle curses and wrestle with moral questions surrounding power and sacrifice.">
+          <div class="thumb" style="background-image:url('images/jujutsu_kaisen.jpg')"></div>
+          <div class="meta"><h4>Jujutsu Kaisen</h4><p class="muted">Action • 24+ eps</p></div>
+        </div>
+
+        <!-- Fullmetal Alchemist: Brotherhood -->
+        <div class="card"
+             data-title="Fullmetal Alchemist: Brotherhood"
+             data-genre="Action • Adventure"
+             data-year="2009"
+             data-episodes="64"
+             data-main="Edward Elric|Young State Alchemist searching for the Philosopher's Stone"
+             data-friends="Alphonse Elric|Brother; Winry Rockbell|Mechanic; Roy Mustang|Ally"
+             data-rival="Homunculi|Artificial antagonists"
+             data-bio="Two brothers commit taboo alchemy, then set off on a journey filled with politics, science, and tragedy to restore what was lost.">
+          <div class="thumb" style="background-image:url('images/fullmetal_alchemist_brotherhood.jpg')"></div>
+          <div class="meta"><h4>Fullmetal Alchemist: Brotherhood</h4><p class="muted">Action • 64 eps</p></div>
+        </div>
+
+        <!-- Hunter x Hunter -->
+        <div class="card"
+             data-title="Hunter x Hunter"
+             data-genre="Adventure • Shonen"
+             data-year="2011"
+             data-episodes="148"
+             data-main="Gon Freecss|Young boy searching for his father"
+             data-friends="Killua Zoldyck|Best friend; Kurapika|Determined; Leorio Paradinight|Compassionate"
+             data-rival="Hisoka|Unsettling antagonist"
+             data-bio="A coming-of-age adventure where Gon and friends take perilous tests and face moral complexity on the road to becoming Hunters.">
+          <div class="thumb" style="background-image:url('images/hunterxhunter.jpg')"></div>
+          <div class="meta"><h4>Hunter x Hunter</h4><p class="muted">Adventure • 148 eps</p></div>
+        </div>
+
+        <!-- Fairy Tail -->
+        <div class="card"
+             data-title="Fairy Tail"
+             data-genre="Action • Fantasy"
+             data-year="2009"
+             data-episodes="300+"
+             data-main="Natsu Dragneel|Fiery wizard and guild member"
+             data-friends="Lucy Heartfilia|Celestial wizard; Happy|Companion; Erza Scarlet|Guildmate"
+             data-rival="Dark guilds (various)|Opposing forces"
+             data-bio="A guild-based fantasy series about friendship, adventure, and magic where members take on quests and protect each other.">
+          <div class="thumb" style="background-image:url('images/fairy_tail.jpg')"></div>
+          <div class="meta"><h4>Fairy Tail</h4><p class="muted">Action • 300+ eps</p></div>
+        </div>
+
+        <!-- Chainsaw Man -->
+        <div class="card"
+             data-title="Chainsaw Man"
+             data-genre="Action • Horror"
+             data-year="2022"
+             data-episodes="12+"
+             data-main="Denji|Chainsaw-turned hero with a rough past"
+             data-friends="Power|Fiend ally; Aki Hayakawa|Partner"
+             data-rival="Makima|Complex antagonist"
+             data-bio="A brutal, darkly comic story of Denji — a man fused with a devil — who becomes a weapon against other devils while struggling with human desires.">
+          <div class="thumb" style="background-image:url('images/chainsaw_man.jpg')"></div>
+          <div class="meta"><h4>Chainsaw Man</h4><p class="muted">Action • 12+ eps</p></div>
+        </div>
+      </div>
+    </section>
+
+    
+
+       
+    <footer> Made by: RAM Patil <br>  
+    </footer>
+
+  </main>
+
+  <!-- ===== Info modal (opens when clicking a card) ===== -->
+  <div id="infoModal" class="info-modal" role="dialog" aria-hidden="true">
+    <div class="info-card" role="document" aria-labelledby="infoTitle">
+      <div id="infoLeft" class="info-left" style="background-image:''"></div>
+      <div class="info-right">
+        <button id="infoClose" class="close-btn" aria-label="Close">✕</button>
+        <h2 id="infoTitle">Title</h2>
+        <div id="infoMeta" class="meta-line">Genre • Year • Episodes</div>
+
+        <div class="section">
+          <strong>Synopsis</strong>
+          <div id="infoBio" style="color:#cfe7ff"></div>
+        </div>
+
+        <div class="section">
+          <strong>Main Character</strong>
+          <div id="infoMain" class="person"></div>
+        </div>
+
+        <div class="section">
+          <strong>Friends / Allies</strong>
+          <div id="infoFriends" class="person"></div>
+        </div>
+
+        <div class="section">
+          <strong>Rival / Antagonist</strong>
+          <div id="infoRival" class="person"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Basic site behavior (kept): search, random, menu, clear contact, genres menu
+    const gallery = document.getElementById('gallery');
+    const cards = Array.from(document.querySelectorAll('.card'));
+    const search = document.getElementById('search');
+    const countEl = document.getElementById('count');
+    const openRandomBtn = document.getElementById('openRandom');
+
+    // Info modal elements & utilities
+    const infoModal = document.getElementById('infoModal');
+    const infoLeft = document.getElementById('infoLeft');
+    const infoTitle = document.getElementById('infoTitle');
+    const infoMeta = document.getElementById('infoMeta');
+    const infoBio = document.getElementById('infoBio');
+    const infoMain = document.getElementById('infoMain');
+    const infoFriends = document.getElementById('infoFriends');
+    const infoRival = document.getElementById('infoRival');
+    const infoClose = document.getElementById('infoClose');
+
+    // update shown count
+    function refreshCount() {
+      const visible = cards.filter(c => c.style.display !== 'none').length;
+      if (countEl) countEl.textContent = visible;
+    }
+    refreshCount();
+
+    // parse field like "Name|note; Name2|note2" or "Name|note, Name2|note2"
+    function parseList(field) {
+      if (!field) return [];
+      // allow comma or semicolon separators
+      return field.split(/[,;]+/).map(s => {
+        const parts = s.trim().split('|').map(p => p.trim());
+        return { name: parts[0] || '', note: parts[1] || '' };
+      }).filter(p => p.name);
+    }
+
+    function renderPeople(arr) {
+      if (!arr || !arr.length) return '—';
+      return arr.map(p => `<div><strong>${escapeHtml(p.name)}</strong>${p.note ? ' — ' + escapeHtml(p.note) : ''}</div>`).join('');
+    }
+
+    // small helper to escape HTML inserted from data attributes (defensive)
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, (m) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+    }
+
+    // open modal from a card's data-* attributes
+    function openInfoModal(card) {
+      const title = card.dataset.title || '';
+      const genre = card.dataset.genre || '';
+      const year = card.dataset.year || '';
+      const eps = card.dataset.episodes || '';
+      const main = parseList(card.dataset.main);
+      const friends = parseList(card.dataset.friends);
+      const rival = parseList(card.dataset.rival);
+      const bio = card.dataset.bio || '';
+      // poster from .thumb background
+      let poster = '';
+      const thumb = card.querySelector('.thumb');
+      if (thumb) {
+        const bg = getComputedStyle(thumb).backgroundImage;
+        poster = bg && bg !== 'none' ? bg.replace(/^url\(["']?/, '').replace(/["']?\)$/, '') : '';
+      }
+
+      // populate modal
+      infoLeft.style.backgroundImage = poster ? `url('${poster}')` : "none";
+      infoTitle.textContent = title;
+      infoMeta.textContent = `${genre} • ${year} • ${eps}`;
+      infoBio.textContent = bio || 'Synopsis not available.';
+      infoMain.innerHTML = main.length ? `<strong>${escapeHtml(main[0].name)}</strong>${main[0].note ? ' — ' + escapeHtml(main[0].note) : ''}` : '—';
+      infoFriends.innerHTML = renderPeople(friends);
+      infoRival.innerHTML = rival.length ? `<strong>${escapeHtml(rival[0].name)}</strong>${rival[0].note ? ' — ' + escapeHtml(rival[0].note) : ''}` : '—';
+
+      infoModal.classList.add('active');
+      infoModal.setAttribute('aria-hidden', 'false');
+      infoClose.focus();
+    }
+
+    function closeInfoModal() {
+      infoModal.classList.remove('active');
+      infoModal.setAttribute('aria-hidden', 'true');
+    }
+
+    // attach click + hover handlers to cards
+    cards.forEach(card => {
+      // hover: show a quick tooltip-like overlay (optional)
+      card.addEventListener('mouseenter', () => {
+        // small quick UI: set title attr (native tooltip) or could add bubble — minimal so not to bloat
+        card.setAttribute('title', card.dataset.title || '');
+      });
+
+      // click: open info modal
+      card.addEventListener('click', () => openInfoModal(card));
+
+      // keyboard accessibility
+      card.setAttribute('tabindex', '0');
+      card.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Enter' || ev.key === ' ') {
+          ev.preventDefault();
+          openInfoModal(card);
+        }
+      });
+    });
+
+    // close modal handlers
+    infoClose.addEventListener('click', closeInfoModal);
+    infoModal.addEventListener('click', (e) => { if (e.target === infoModal) closeInfoModal(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeInfoModal(); });
+
+    // search filter (title & tags)
+    search.addEventListener('input', (e) => {
+      const q = e.target.value.trim().toLowerCase();
+      cards.forEach(card => {
+        const title = (card.dataset.title||'').toLowerCase();
+        const tags = (card.dataset.tags||'').toLowerCase();
+        const match = !q || title.includes(q) || tags.includes(q);
+        card.style.display = match ? '' : 'none';
+      });
+      refreshCount();
+    });
+
+    // Surprise me: open a random visible card's info
+    openRandomBtn.addEventListener('click', () => {
+      const visible = cards.filter(c => c.style.display !== 'none');
+      if (!visible.length) return;
+      const pick = visible[Math.floor(Math.random()*visible.length)];
+      openInfoModal(pick);
+      // scroll to it (optional)
+      try { pick.scrollIntoView({behavior:'smooth', block:'center'}); } catch(e){}
+    });
+
+    // mobile menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    menuBtn.addEventListener('click', () => {
+      const nav = document.querySelector('nav');
+      if(!nav) return;
+      const shown = nav.style.display === 'flex';
+      nav.style.display = shown ? 'none' : 'flex';
+      menuBtn.setAttribute('aria-expanded', String(!shown));
+    });
+
+   
+
+    /* ---------- GENRES DROPDOWN JS (only added) ---------- */
+    const genresBtn = document.getElementById('genresBtn');
+    const genresDropdown = document.getElementById('genresDropdown');
+    const genresMenu = document.getElementById('genresMenu');
+
+    function closeGenres() {
+      genresDropdown.classList.remove('open');
+      genresBtn.setAttribute('aria-expanded', 'false');
+      genresMenu.setAttribute('aria-hidden', 'true');
+    }
+    function openGenres() {
+      genresDropdown.classList.add('open');
+      genresBtn.setAttribute('aria-expanded', 'true');
+      genresMenu.setAttribute('aria-hidden', 'false');
+    }
+
+    genresBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const open = genresDropdown.classList.contains('open');
+      if (open) closeGenres(); else openGenres();
+    });
+
+    // close on outside click or ESC
+    document.addEventListener('click', (e) => {
+      if (!genresDropdown.contains(e.target)) closeGenres();
+    });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeGenres(); });
+
+    // set initial count (in case DOM changed)
+    refreshCount();
+  </script>
+</body>
+</html>

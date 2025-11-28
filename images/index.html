@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>OtakuSpot — Anime Showcase</title>
+
+  <!-- Google font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ---------- Reset & base ---------- */
+    :root{
+      --bg:#0b0f17; --card:#0f1720; --accent:#6ef1e0; --muted:#9aa6b2; --glass: rgba(255,255,255,0.04);
+      --radius:14px; --maxw:1200px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:"Poppins",system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      background:linear-gradient(180deg,#05060a 0%, #0b0f17 100%);
+      color:#e6eef6;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding-bottom:4rem;
+    }
+    a{color:inherit;text-decoration:none}
+
+    .container{max-width:var(--maxw);margin:0 auto;padding:2rem;}
+    header{
+      position:sticky;top:0;z-index:60;
+      backdrop-filter: blur(6px);
+      background: linear-gradient(180deg, rgba(10,12,16,0.6), rgba(10,12,16,0.35));
+      border-bottom:1px solid rgba(255,255,255,0.03);
+    }
+    .nav-inner{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;gap:1rem;padding:1rem 1rem;}
+    .logo{font-weight:700;font-size:1.6rem;display:flex;align-items:center;gap:.6rem}
+    .logo .mark{width:36px;height:36px;border-radius:8px;background:linear-gradient(45deg,var(--accent),#4b8bff);display:inline-block}
+    nav{margin-left:auto;display:flex;gap:1rem;align-items:center}
+    nav a{padding:.6rem .9rem;border-radius:8px;color:var(--muted);font-weight:600;font-size:0.95rem}
+    nav a:hover{color:var(--accent);background:var(--glass)}
+
+    /* mobile menu button */
+    .menu-btn{display:none;background:none;border:0;color:var(--muted);font-size:1.6rem;padding:.2rem .6rem;border-radius:8px}
+    .search-input{min-width:210px;padding:.5rem .8rem;background:transparent;border:1px solid rgba(255,255,255,0.04);border-radius:10px;color:var(--muted);font-size:.95rem}
+    .cta{background:linear-gradient(90deg,var(--accent),#4b8bff);padding:.6rem .9rem;border-radius:10px;font-weight:700;color:#021;box-shadow:0 6px 18px rgba(110,241,224,0.08)}
+
+    /* ---------- GENRES DROPDOWN (only added styles) ---------- */
+    .genres-dropdown { position: relative; display: inline-block; }
+    .genres-dropdown button {
+      background: none;
+      border: 0;
+      color: var(--muted);
+      font-weight: 600;
+      padding: .6rem .9rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+    .genres-dropdown button:hover { color: var(--accent); background: var(--glass); }
+    .genres-menu {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 8px);
+      background: linear-gradient(180deg, rgba(10,12,16,0.98), rgba(6,8,12,0.98));
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+      border: 1px solid rgba(255,255,255,0.03);
+      padding: .5rem;
+      display: none;
+      z-index: 80;
+      min-width: 200px;
+    }
+    .genres-menu a {
+      display: block;
+      padding: .6rem .7rem;
+      color: var(--muted);
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    .genres-menu a:hover { color: var(--accent); background: rgba(255,255,255,0.02); }
+    .genres-dropdown.open .genres-menu { display: block; }
+
+    @media (max-width:940px){
+      .hero{grid-template-columns:1fr;gap:1rem}
+      .poster{height:320px}
+      .contact-right{display:none}
+      nav{display:none}
+      .menu-btn{display:inline-block;margin-left:auto}
+
+      /* mobile genre menu behavior: full width inside collapsed nav */
+      .genres-menu{position:static;width:100%;box-shadow:none}
+      .genres-dropdown button{width:100%;text-align:left}
+    }
+
+    /* ---------- Rest of original styles (hero, cards, modal, contact) ---------- */
+    /* hero */
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:2rem;align-items:center;padding:3rem 1rem 1.5rem}
+    .hero-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:var(--radius);padding:2rem;box-shadow: 0 10px 30px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03)}
+    .hero h1{font-size:2.6rem;margin:0 0 .4rem;line-height:1.02}
+    .hero p{color:var(--muted);margin:0 0 1.25rem}
+    .tags{display:flex;gap:.5rem;flex-wrap:wrap}
+    .tag{background:rgba(255,255,255,0.03);padding:.4rem .7rem;border-radius:999px;font-size:.85rem;color:var(--muted)}
+
+    /* spotlight / poster */
+    .poster{height:420px;border-radius:12px;overflow:hidden;background-size:cover;background-position:center;box-shadow:0 16px 40px rgba(2,6,23,0.7);display:flex;align-items:flex-end;padding:1rem}
+    .poster .poster-info{background:linear-gradient(180deg,transparent, rgba(0,0,0,0.6));padding:.8rem;border-radius:10px;color:#fff;width:100%}
+    .poster .poster-title{font-size:1.25rem;font-weight:700;margin:0}
+    .poster .poster-meta{font-size:.9rem;color:var(--muted);margin-top:.4rem}
+
+    /* gallery */
+    .section-title{display:flex;align-items:center;justify-content:space-between;margin:2rem 0 1rem}
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+      gap:1rem;
+    }
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:.6rem;border:1px solid rgba(255,255,255,0.03);cursor:pointer;transition:transform .18s ease,box-shadow .18s}
+    .card:hover{transform:translateY(-6px);box-shadow:0 12px 28px rgba(2,6,23,0.6)}
+    .thumb{height:220px;border-radius:10px;overflow:hidden;margin-bottom:.6rem;background:#111;background-size:cover;background-position:center}
+    .meta h4{margin:0;font-size:1rem}
+    .meta p{margin:.35rem 0 0;color:var(--muted);font-size:.9rem}
+
+    /* modal trailer */
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;padding:2rem;z-index:120;visibility:hidden;opacity:0;transition:opacity .16s,visibility .16s}
+    .modal.active{visibility:visible;opacity:1}
+    .modal-content{width:min(1000px,95%);max-height:80vh;background:#071018;border-radius:12px;padding:1rem;overflow:auto;border:1px solid rgba(255,255,255,0.04)}
+    .modal-close{float:right;font-size:1.4rem;color:var(--muted);cursor:pointer}
+
+    /* contact */
+    .contact-card{display:flex;gap:1rem;align-items:stretch;padding:1rem;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03)}
+    .contact-left{flex:1;padding:1rem}
+    .contact-right{width:360px;padding:1rem;border-left:1px dashed rgba(255,255,255,0.03)}
+    .input,textarea{width:100%;padding:.7rem .8rem;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted);resize:vertical}
+    textarea{min-height:120px}
+
+    footer{padding:2rem 0 5rem;color:var(--muted);font-size:.9rem;text-align:center;margin-top:2rem}
+  </style>
+</head>
+<body>
+
+  <!-- header -->
+  <header>
+    <div class="nav-inner">
+      <div class="logo"><span class="mark"></span>OtakuSpot</div>
+
+      <!-- NAV: unchanged links plus Genres dropdown -->
+      <nav aria-label="main navigation">
+        <a href="#spotlight">Spotlight</a>
+        <a href="#shows">Shows</a>
+
+        <div class="genres-dropdown" id="genresDropdown">
+          <button id="genresBtn" aria-expanded="false">Genres ▾</button>
+          <div class="genres-menu" id="genresMenu" role="menu" aria-hidden="true">
+            <a role="menuitem" href="anime_genere/action.html" target="_blank" rel="noopener">Action</a>
+            <a role="menuitem" href="anime_genere/shonen.html" target="_blank" rel="noopener">Shonen</a>
+            <a role="menuitem" href="anime_genere/seinen.html" target="_blank" rel="noopener">Seinen</a>
+            <a role="menuitem" href="anime_genere/isekai.html" target="_blank" rel="noopener">Isekai</a>
+            <a role="menuitem" href="anime_genere/fantasy.html" target="_blank" rel="noopener">Fantasy</a>
+            <a role="menuitem" href="anime_genere/romance.html" target="_blank" rel="noopener">Romance</a>
+            <a role="menuitem" href="anime_genere/comedy.html" target="_blank" rel="noopener">Comedy</a>
+            <a role="menuitem" href="anime_genere/school.html" target="_blank" rel="noopener">School</a>
+            <a role="menuitem" href="anime_genere/slice-of-life.html" target="_blank" rel="noopener">Slice of Life</a>
+          </div>
+        </div>
+
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <input id="search" class="search-input" placeholder="Search anime or tags..." aria-label="Search anime">
+      <button id="menuBtn" class="menu-btn" aria-expanded="false">☰</button>
+      <a class="cta" href="#contact">Join</a>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-card">
+        <h1>Discover awesome anime — new & classic</h1>
+        <p>Curate & share episodes, trailers, and character galleries. This starter template is ready for your images, links and descriptions.</p>
+
+        <div class="tags" style="margin-bottom:1rem">
+          <span class="tag">Action</span>
+          <span class="tag">Shonen</span>
+          <span class="tag">Slice of Life</span>
+          <span class="tag">Romance</span>
+        </div>
+
+        <div style="display:flex;gap:.6rem;margin-top:1rem">
+          <a class="cta" href="#shows">Browse Shows</a>
+          <button id="openRandom" class="tag" title="Open a random trailer">Surprise me 🎲</button>
+        </div>
+
+        <div style="margin-top:1.2rem">
+          <small style="color:var(--muted)">Tip: Click any show card to open its trailer and details.</small>
+        </div>
+      </div>
+
+      <!-- Spotlight / Poster -->
+      <div class="poster" id="spotlightPoster" style="background-image:url('images/spotlight.jpg')">
+        <div class="poster-info">
+          <div class="poster-title">One Piece</div>
+          <div class="poster-meta">New epsode — 1151 • <strong>Trailer</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Shows / Gallery -->
+    <section id="shows">
+      <div class="section-title">
+        <h2 style="margin:0">Top Picks</h2>
+        <div style="color:var(--muted)">Showing <span id="count">9</span> shows</div>
+      </div>
+<div class="grid" id="gallery">
+  <!-- 1 -->
+  <div class="card" data-title="One Piece" data-tags="action,adventure" data-trailer="https://www.youtube.com/embed/1V6kWJx0gq4">
+    <div class="thumb" style="background-image:url('images/one_piece.webp')"></div>
+    <div class="meta"><h4>One Piece</h4><p class="muted">Action • 1000+ eps</p></div>
+  </div>
+
+  <!-- 2 -->
+  <div class="card" data-title="Naruto" data-tags="shonen,action" data-trailer="https://www.youtube.com/embed/4LjgD2f2kGM">
+    <div class="thumb" style="background-image:url('images/naruto.jpg')"></div>
+    <div class="meta"><h4>Naruto</h4><p class="muted">Shonen • 220 eps</p></div>
+  </div>
+
+  <!-- 3 -->
+  <div class="card" data-title="Bleach" data-tags="shonen,supernatural" data-trailer="https://www.youtube.com/embed/3uW5v3Q9t0g">
+    <div class="thumb" style="background-image:url('images/bleach.jpg')"></div>
+    <div class="meta"><h4>Bleach</h4><p class="muted">Shonen • 366 eps</p></div>
+  </div>
+
+  <!-- 4 -->
+  <div class="card" data-title="Dragon Ball Z" data-tags="shonen,action" data-trailer="https://www.youtube.com/embed/h7Z0w5u4D8Y">
+    <div class="thumb" style="background-image:url('images/dragon_ball_z.jpg')"></div>
+    <div class="meta"><h4>Dragon Ball Z</h4><p class="muted">Shonen • Classic</p></div>
+  </div>
+
+  <!-- 5 -->
+  <div class="card" data-title="Attack on Titan" data-tags="action,drama" data-trailer="https://www.youtube.com/embed/MGRm4IzK1SQ">
+    <div class="thumb" style="background-image:url('images/attack-on-titan.jpg')"></div>
+    <div class="meta"><h4>Attack on Titan</h4><p class="muted">Action • 75+ eps</p></div>
+  </div>
+
+  <!-- 6 -->
+  <div class="card" data-title="My Hero Academia" data-tags="action,superhero" data-trailer="https://www.youtube.com/embed/2Wxj3oDq2gU">
+    <div class="thumb" style="background-image:url('images/my_hero_academia.jpg')"></div>
+    <div class="meta"><h4>My Hero Academia</h4><p class="muted">Action • 100+ eps</p></div>
+  </div>
+
+  <!-- 7 -->
+  <div class="card" data-title="Demon Slayer" data-tags="action,fantasy" data-trailer="https://www.youtube.com/embed/4K4P7wD8GvY">
+    <div class="thumb" style="background-image:url('images/demon_slayer.jpg')"></div>
+    <div class="meta"><h4>Demon Slayer</h4><p class="muted">Action • 30+ eps</p></div>
+  </div>
+
+  <!-- 8 -->
+  <div class="card" data-title="Jujutsu Kaisen" data-tags="action,supernatural" data-trailer="https://www.youtube.com/embed/5S1c6yqQzQ8">
+    <div class="thumb" style="background-image:url('images/jujutsu_kaisen.jpg')"></div>
+    <div class="meta"><h4>Jujutsu Kaisen</h4><p class="muted">Action • 24+ eps</p></div>
+  </div>
+
+  <!-- 9 -->
+  <div class="card" data-title="Fullmetal Alchemist: Brotherhood" data-tags="action,adventure" data-trailer="https://www.youtube.com/embed/9w8X0GQ2uYs">
+    <div class="thumb" style="background-image:url('images/fullmetal_alchemist_brotherhood.jpg')"></div>
+    <div class="meta"><h4>Fullmetal Alchemist: Brotherhood</h4><p class="muted">Action • 64 eps</p></div>
+  </div>
+
+  <!-- 10 -->
+  <div class="card" data-title="Hunter x Hunter" data-tags="adventure,shonen" data-trailer="https://www.youtube.com/embed/7a8K2wQ0e3A">
+    <div class="thumb" style="background-image:url('images/hunterxhunter.jpg')"></div>
+    <div class="meta"><h4>Hunter x Hunter</h4><p class="muted">Adventure • 148 eps</p></div>
+  </div>
+
+  <!-- 11 -->
+  <div class="card" data-title="Fairy Tail" data-tags="action,adventure" data-trailer="https://www.youtube.com/embed/1zJz0lO7Gqk">
+    <div class="thumb" style="background-image:url('images/fairy_tail.jpg')"></div>
+    <div class="meta"><h4>Fairy Tail</h4><p class="muted">Action • 300+ eps</p></div>
+  </div>
+
+  <!-- 12 -->
+  <div class="card" data-title="Chainsaw Man" data-tags="action,horror" data-trailer="https://www.youtube.com/embed/0A1B2C3D4E5">
+    <div class="thumb" style="background-image:url('images/chainsaw_man.jpg')"></div>
+    <div class="meta"><h4>Chainsaw Man</h4><p class="muted">Action • 12+ eps</p></div>
+  </div>
+</div>
+
+    </section>
+
+    <!-- contact -->
+    <section id="contact" style="margin-top:2rem">
+      <h2 style="margin-bottom:1rem">Contact / Submit Anime</h2>
+
+      <div class="contact-card">
+        <div class="contact-left">
+          <form method="post" action="contact_us.php" id="contactForm">
+            <label style="font-size:.9rem;color:var(--muted)">Name</label>
+            <input class="input" name="name" placeholder="Your name">
+            <label style="font-size:.9rem;color:var(--muted);margin-top:.6rem">Email</label>
+            <input class="input" name="email" type="email" placeholder="you@example.com">
+            <label style="font-size:.9rem;color:var(--muted);margin-top:.6rem">Message or submission (link / synopsis)</label>
+            <textarea name="message" placeholder="Add a short note or a link to the trailer"></textarea>
+
+            <div style="margin-top:.8rem;display:flex;gap:.6rem">
+              <button type="submit" class="cta">Send</button>
+              <button type="button" id="clearContact" class="tag">Clear</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="contact-right">
+          <strong>About submissions</strong>
+          <p style="color:var(--muted);font-size:.95rem">Send a short synopsis and a trailer link. If you use `contact_us.php` on a server with PHP + DB (like the original project), submissions can be saved.</p>
+          <p style="color:var(--muted);font-size:.9rem">Powered by your project files (bootstrap) — I kept the form action pointing to `contact_us.php` to match your existing backend if you already have it.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      Built from your project starter — tweak images, copy and links. Tip: put images in <code>images/</code> and rename accordingly. © OtakuSpot
+    </footer>
+
+  </main>
+
+  <!-- modal for trailer/details -->
+  <div id="modal" class="modal" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <strong id="modalTitle">Trailer</strong>
+        <button id="closeModal" class="modal-close" aria-label="Close">✕</button>
+      </div>
+      <div id="modalBody" style="margin-top:1rem">
+        <!-- iframe will be injected here -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Basic site behavior: inspired by your original script (menu + search + click-to-open)
+    // - click a card to open modal with trailer
+    // - search input filters gallery by title/tags
+    // - simple random trailer opener
+
+    const gallery = document.getElementById('gallery');
+    const cards = Array.from(document.querySelectorAll('.card'));
+    const search = document.getElementById('search');
+    const modal = document.getElementById('modal');
+    const modalBody = document.getElementById('modalBody');
+    const modalTitle = document.getElementById('modalTitle');
+    const closeModal = document.getElementById('closeModal');
+    const countEl = document.getElementById('count');
+
+    // update count
+    function refreshCount() {
+      const visible = cards.filter(c => c.style.display !== 'none').length;
+      countEl.textContent = visible;
+    }
+    refreshCount();
+
+    // open modal helper
+    function openModal(title, embedUrl){
+      modalTitle.textContent = title;
+      modalBody.innerHTML = `
+        <div style="position:relative;padding-top:56.25%;overflow:hidden;border-radius:8px;">
+          <iframe src="${embedUrl}" style="position:absolute;inset:0;width:100%;height:100%;border:0" allowfullscreen allow="autoplay;encrypted-media"></iframe>
+        </div>
+      `;
+      modal.classList.add('active');
+      modal.setAttribute('aria-hidden','false');
+    }
+    closeModal.addEventListener('click', () => {
+      modal.classList.remove('active');
+      modalBody.innerHTML = '';
+      modal.setAttribute('aria-hidden','true');
+    });
+    modal.addEventListener('click', (e) => {
+      if(e.target === modal) { closeModal.click(); }
+    });
+
+    // card click -> open trailer
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        const title = card.dataset.title || 'Trailer';
+        const trailer = card.dataset.trailer || '';
+        // If youtube watch URL provided (short or watch?v=), convert to embed
+        let embed = trailer;
+        if(trailer.includes('watch?v=')) embed = trailer.replace('watch?v=', 'embed/');
+        if(trailer.includes('youtu.be/')) embed = trailer.replace('youtu.be/', 'www.youtube.com/embed/');
+        if(!embed) embed = 'https://www.youtube.com/embed/dQw4w9WgXcQ'; // placeholder
+        openModal(title, embed);
+      });
+    });
+
+    // search filter
+    search.addEventListener('input', (e) => {
+      const q = e.target.value.trim().toLowerCase();
+      cards.forEach(card => {
+        const title = (card.dataset.title||'').toLowerCase();
+        const tags = (card.dataset.tags||'').toLowerCase();
+        const match = !q || title.includes(q) || tags.includes(q);
+        card.style.display = match ? '' : 'none';
+      });
+      refreshCount();
+    });
+
+    // random trailer button
+    document.getElementById('openRandom').addEventListener('click', () => {
+      const visible = cards.filter(c => c.style.display !== 'none');
+      const pick = visible[Math.floor(Math.random()*visible.length)];
+      if(pick) pick.click();
+    });
+
+    // mobile menu toggle (very simple)
+    const menuBtn = document.getElementById('menuBtn');
+    menuBtn.addEventListener('click', () => {
+      const nav = document.querySelector('nav');
+      if(!nav) return;
+      const shown = nav.style.display === 'flex';
+      nav.style.display = shown ? 'none' : 'flex';
+      menuBtn.setAttribute('aria-expanded', String(!shown));
+    });
+
+    // contact form clear
+    document.getElementById('clearContact').addEventListener('click', () => {
+      document.getElementById('contactForm').reset();
+    });
+
+    /* ---------- GENRES DROPDOWN JS (only added) ---------- */
+    const genresBtn = document.getElementById('genresBtn');
+    const genresDropdown = document.getElementById('genresDropdown');
+    const genresMenu = document.getElementById('genresMenu');
+
+    function closeGenres() {
+      genresDropdown.classList.remove('open');
+      genresBtn.setAttribute('aria-expanded', 'false');
+      genresMenu.setAttribute('aria-hidden', 'true');
+    }
+    function openGenres() {
+      genresDropdown.classList.add('open');
+      genresBtn.setAttribute('aria-expanded', 'true');
+      genresMenu.setAttribute('aria-hidden', 'false');
+    }
+
+    genresBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const open = genresDropdown.classList.contains('open');
+      if (open) closeGenres(); else openGenres();
+    });
+
+    // close on outside click or ESC
+    document.addEventListener('click', (e) => {
+      if (!genresDropdown.contains(e.target)) closeGenres();
+    });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeGenres(); });
+
+  </script>
+</body>
+</html>

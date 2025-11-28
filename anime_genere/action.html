@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Action Anime — OtakuSpot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--muted:#9aa6b2;--accent:#6ef1e0}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:"Poppins",sans-serif;background:linear-gradient(180deg,#05060a,#0b0f17);color:#e6eef6;padding:2rem}
+    .container{max-width:1200px;margin:0 auto}
+    header{display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem}
+    header h1{margin:0;font-size:1.6rem}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem}
+    .card{position:relative;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:.6rem;border:1px solid rgba(255,255,255,0.03);cursor:pointer;transition:transform .18s ease,box-shadow .18s}
+    .card:hover{transform:translateY(-6px);box-shadow:0 12px 28px rgba(2,6,23,0.6)}
+    .thumb{height:220px;border-radius:10px;overflow:hidden;margin-bottom:.6rem;background:#111;background-size:cover;background-position:center}
+    .meta h4{margin:0;font-size:1rem;word-break:break-word}
+    .meta p{margin:.35rem 0 0;color:var(--muted);font-size:.9rem}
+
+    /* Hover info bubble */
+    .info-bubble{
+      position:absolute;
+      left:8px;
+      top:8px;
+      background:rgba(2,6,23,0.9);
+      border:1px solid rgba(255,255,255,0.04);
+      padding:.6rem;
+      border-radius:8px;
+      width:calc(100% - 16px);
+      color:var(--muted);
+      font-size:.85rem;
+      display:none;
+      z-index:20;
+    }
+    .card.show-bubble .info-bubble{display:block}
+
+    .info-bubble strong{color:var(--accent);display:block;margin-bottom:.25rem}
+
+    /* Modal */
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;padding:2rem;z-index:120;visibility:hidden;opacity:0;transition:opacity .16s,visibility .16s}
+    .modal.active{visibility:visible;opacity:1}
+    .modal-content{width:min(900px,95%);max-height:86vh;background:#071018;border-radius:12px;padding:1rem;overflow:auto;border:1px solid rgba(255,255,255,0.04)}
+    .modal-grid{display:grid;grid-template-columns:220px 1fr;gap:1rem;align-items:start}
+    .modal-poster{height:320px;background-size:cover;background-position:center;border-radius:8px;border:1px solid rgba(255,255,255,0.03)}
+    .modal-close{float:right;font-size:1.4rem;color:var(--muted);cursor:pointer;background:none;border:0}
+    .modal h2{margin:0 0 .25rem}
+    .meta-list{color:var(--muted);font-size:.95rem;margin:0 0 .8rem}
+    .synopsis{color:#dfeaf0;line-height:1.45}
+    .btn-row{display:flex;gap:.6rem;margin-top:1rem}
+    .btn{padding:.5rem .8rem;border-radius:8px;border:0;font-weight:700;cursor:pointer}
+    .btn.primary{background:linear-gradient(90deg,var(--accent),#4b8bff);color:#021}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+
+    @media (max-width:720px){
+      .modal-grid{grid-template-columns:1fr;grid-auto-rows:auto}
+      .modal-poster{height:240px}
+      .thumb{height:160px}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Action Anime</h1>
+      <div style="margin-left:auto;color:var(--muted)">29 shows</div>
+    </header>
+
+    <section>
+      <div class="grid">
+
+        <!-- 1 -->
+        <div class="card" data-title="Attack on Titan">
+          <div class="info-bubble"><strong>Attack on Titan</strong><span class="ib-line">Release: 2013 • Episodes: 75+</span></div>
+          <div class="thumb" style="background-image:url('images/attack-on-titan.jpg')"></div>
+          <div class="meta"><h4>Attack on Titan</h4><p class="muted">Action • Shonen</p></div>
+        </div>
+
+        <!-- 2 -->
+        <div class="card" data-title="Naruto">
+          <div class="info-bubble"><strong>Naruto</strong><span class="ib-line">Release: 2002 • Episodes: 220</span></div>
+          <div class="thumb" style="background-image:url('images/naruto.jpg')"></div>
+          <div class="meta"><h4>Naruto</h4><p class="muted">Action • Shonen</p></div>
+        </div>
+
+        <!-- 3 -->
+        <div class="card" data-title="Bleach">
+          <div class="info-bubble"><strong>Bleach</strong><span class="ib-line">Release: 2004 • Episodes: 366</span></div>
+          <div class="thumb" style="background-image:url('images/bleach.jpg')"></div>
+          <div class="meta"><h4>Bleach</h4><p class="muted">Action • Shonen</p></div>
+        </div>
+
+        <!-- 4 -->
+        <div class="card" data-title="Demon Slayer">
+          <div class="info-bubble"><strong>Demon Slayer</strong><span class="ib-line">Release: 2019 • Episodes: 30+</span></div>
+          <div class="thumb" style="background-image:url('images/dimon_slayer.jpg')"></div>
+          <div class="meta"><h4>Demon Slayer</h4><p class="muted">Action • Shonen</p></div>
+        </div>
+
+        <!-- 5 -->
+        <div class="card" data-title="Jujutsu Kaisen">
+          <div class="info-bubble"><strong>Jujutsu Kaisen</strong><span class="ib-line">Release: 2020 • Episodes: 24+</span></div>
+          <div class="thumb" style="background-image:url('images/jujutsu-kaisen.jpg')"></div>
+          <div class="meta"><h4>Jujutsu Kaisen</h4><p class="muted">Action • Shonen</p></div>
+        </div>
+
+        <!-- 6 -->
+        <div class="card" data-title="My Hero Academia">
+          <div class="info-bubble"><strong>My Hero Academia</strong><span class="ib-line">Release: 2016 • Episodes: 100+</span></div>
+          <div class="thumb" style="background-image:url('images/my-hero-academia.jpg')"></div>
+          <div class="meta"><h4>My Hero Academia</h4><p class="muted">Action • Shonen</p></div>
+        </div>
+
+        <!-- 7 -->
+        <div class="card" data-title="Fullmetal Alchemist: Brotherhood">
+          <div class="info-bubble"><strong>Fullmetal Alchemist: Brotherhood</strong><span class="ib-line">Release: 2009 • Episodes: 64</span></div>
+          <div class="thumb" style="background-image:url('images/fullmetal-alchemist-brotherhood.jpg')"></div>
+          <div class="meta"><h4>Fullmetal Alchemist: Brotherhood</h4><p class="muted">Action • Fantasy</p></div>
+        </div>
+
+        <!-- 8 -->
+        <div class="card" data-title="Vinland Saga">
+          <div class="info-bubble"><strong>Vinland Saga</strong><span class="ib-line">Release: 2019 • Episodes: 24+</span></div>
+          <div class="thumb" style="background-image:url('images/vinland-saga.jpg')"></div>
+          <div class="meta"><h4>Vinland Saga</h4><p class="muted">Action • Seinen</p></div>
+        </div>
+
+        <!-- 9 -->
+        <div class="card" data-title="Tokyo Ghoul">
+          <div class="info-bubble"><strong>Tokyo Ghoul</strong><span class="ib-line">Release: 2014 • Episodes: 48+</span></div>
+          <div class="thumb" style="background-image:url('images/tokyo-ghoul.jpg')"></div>
+          <div class="meta"><h4>Tokyo Ghoul</h4><p class="muted">Action • Dark</p></div>
+        </div>
+
+        <!-- 10 -->
+        <div class="card" data-title="Black Clover">
+          <div class="info-bubble"><strong>Black Clover</strong><span class="ib-line">Release: 2017 • Episodes: 170+</span></div>
+          <div class="thumb" style="background-image:url('images/black_clover.jpg')"></div>
+          <div class="meta"><h4>Black Clover</h4><p class="muted">Action • Shonen</p></div>
+        </div>
+
+        <!-- 11 -->
+        <div class="card" data-title="Hunter x Hunter">
+          <div class="info-bubble"><strong>Hunter x Hunter</strong><span class="ib-line">Release: 2011 (2011 version) • Episodes: 148</span></div>
+          <div class="thumb" style="background-image:url('images/hunterxhunter.jpg')"></div>
+          <div class="meta"><h4>Hunter x Hunter</h4><p class="muted">Action • Adventure</p></div>
+        </div>
+
+        <!-- 12 -->
+        <div class="card" data-title="Chainsaw Man">
+          <div class="info-bubble"><strong>Chainsaw Man</strong><span class="ib-line">Release: 2022 • Episodes: 12+</span></div>
+          <div class="thumb" style="background-image:url('images/chainsaw_man.jpg')"></div>
+          <div class="meta"><h4>Chainsaw Man</h4><p class="muted">Action • Supernatural</p></div>
+        </div>
+
+        <!-- 13 -->
+        <div class="card" data-title="Fire Force">
+          <div class="info-bubble"><strong>Fire Force</strong><span class="ib-line">Release: 2019 • Episodes: 48+</span></div>
+          <div class="thumb" style="background-image:url('images/fire-force.jpg')"></div>
+          <div class="meta"><h4>Fire Force</h4><p class="muted">Action • Supernatural</p></div>
+        </div>
+
+        <!-- 14 -->
+        <div class="card" data-title="Fairy Tail">
+          <div class="info-bubble"><strong>Fairy Tail</strong><span class="ib-line">Release: 2009 • Episodes: 300+</span></div>
+          <div class="thumb" style="background-image:url('images/fairy_tail.jpg')"></div>
+          <div class="meta"><h4>Fairy Tail</h4><p class="muted">Action • Fantasy</p></div>
+        </div>
+
+        <!-- 15 -->
+        <div class="card" data-title="One Piece">
+          <div class="info-bubble"><strong>One Piece</strong><span class="ib-line">Release: 1999 • Episodes: 1000+</span></div>
+          <div class="thumb" style="background-image:url('images/one-piece.jpg')"></div>
+          <div class="meta"><h4>One Piece</h4><p class="muted">Action • Adventure</p></div>
+        </div>
+
+        <!-- 16 -->
+        <div class="card" data-title="Sword Art Online">
+          <div class="info-bubble"><strong>Sword Art Online</strong><span class="ib-line">Release: 2012 • Episodes: 96+</span></div>
+          <div class="thumb" style="background-image:url('images/sword-art-online.jpg')"></div>
+          <div class="meta"><h4>Sword Art Online</h4><p class="muted">Action • Isekai</p></div>
+        </div>
+
+        <!-- 17 -->
+        <div class="card" data-title="Fate/Zero">
+          <div class="info-bubble"><strong>Fate/Zero</strong><span class="ib-line">Release: 2011 • Episodes: 25</span></div>
+          <div class="thumb" style="background-image:url('images/fate_zero.jpg')"></div>
+          <div class="meta"><h4>Fate/Zero</h4><p class="muted">Action • Fantasy</p></div>
+        </div>
+
+        <!-- 18 -->
+        <div class="card" data-title="Mob Psycho 100">
+          <div class="info-bubble"><strong>Mob Psycho 100</strong><span class="ib-line">Release: 2016 • Episodes: 25+</span></div>
+          <div class="thumb" style="background-image:url('images/mob-100.jpg')"></div>
+          <div class="meta"><h4>Mob Psycho 100</h4><p class="muted">Action • Comedy</p></div>
+        </div>
+
+        <!-- 19 -->
+        <div class="card" data-title="Trigun Stampede">
+          <div class="info-bubble"><strong>Trigun Stampede</strong><span class="ib-line">Release: 2023 • Episodes: 24+</span></div>
+          <div class="thumb" style="background-image:url('images/trigun.jpg')"></div>
+          <div class="meta"><h4>Trigun Stampede</h4><p class="muted">Action • Sci-Fi</p></div>
+        </div>
+
+        <!-- 20 -->
+        <div class="card" data-title="Blue Exorcist">
+          <div class="info-bubble"><strong>Blue Exorcist</strong><span class="ib-line">Release: 2011 • Episodes: 37+</span></div>
+          <div class="thumb" style="background-image:url('images/blue_exorcist.jpg')"></div>
+          <div class="meta"><h4>Blue Exorcist</h4><p class="muted">Action • Supernatural</p></div>
+        </div>
+
+        <!-- 21 -->
+        <div class="card" data-title="Psycho-Pass">
+          <div class="info-bubble"><strong>Psycho-Pass</strong><span class="ib-line">Release: 2012 • Episodes: 41+</span></div>
+          <div class="thumb" style="background-image:url('images/psycho-pass.jpg')"></div>
+          <div class="meta"><h4>Psycho-Pass</h4><p class="muted">Action • Sci-Fi</p></div>
+        </div>
+
+        <!-- 22 -->
+        <div class="card" data-title="Kill la Kill">
+          <div class="info-bubble"><strong>Kill la Kill</strong><span class="ib-line">Release: 2013 • Episodes: 24</span></div>
+          <div class="thumb" style="background-image:url('images/kill-la-kill.jpg')"></div>
+          <div class="meta"><h4>Kill la Kill</h4><p class="muted">Action • Comedy</p></div>
+        </div>
+
+        <!-- 23 -->
+        <div class="card" data-title="Akame ga Kill">
+          <div class="info-bubble"><strong>Akame ga Kill</strong><span class="ib-line">Release: 2014 • Episodes: 24</span></div>
+          <div class="thumb" style="background-image:url('images/akame_ga_kill.jpg')"></div>
+          <div class="meta"><h4>Akame ga Kill</h4><p class="muted">Action • Dark</p></div>
+        </div>
+
+        <!-- 24 -->
+        <div class="card" data-title="Tokyo Revengers">
+          <div class="info-bubble"><strong>Tokyo Revengers</strong><span class="ib-line">Release: 2021 • Episodes: 24+</span></div>
+          <div class="thumb" style="background-image:url('images/tokyo_revengers.jpg')"></div>
+          <div class="meta"><h4>Tokyo Revengers</h4><p class="muted">Action • Drama</p></div>
+        </div>
+
+      </div>
+    </section>
+
+    
+  </div>
+
+  <!-- Modal markup -->
+  <div id="modal" class="modal" role="dialog" aria-hidden="true">
+    <div class="modal-content" role="document">
+      <button id="closeModal" class="modal-close" aria-label="Close">✕</button>
+      <div class="modal-grid">
+        <div id="modalPoster" class="modal-poster" style="background-image:url('')"></div>
+        <div>
+          <h2 id="modalTitle">Title</h2>
+          <div class="meta-list" id="modalMeta">Release • Episodes • Studio</div>
+          <div class="synopsis" id="modalSynopsis">Full synopsis will appear here. This text is a short paragraph describing the anime.</div>
+
+          <div class="btn-row">
+            <button id="searchBtn" class="btn ghost">Search web</button>
+            <button id="closeBtn" class="btn primary">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- Auto info database for these action anime (basic facts + synopsis)
+    const animeInfo = {
+      "Attack on Titan": {
+        year: "2013",
+        episodes: "75+",
+        studio: "WIT Studio / MAPPA",
+        synopsis: "Humanity battles giant humanoid Titans after sheltering behind enormous walls."
+      },
+      "Naruto": {
+        year: "2002",
+        episodes: "220",
+        studio: "Pierrot",
+        synopsis: "Naruto Uzumaki, a young ninja, seeks recognition and dreams of becoming Hokage."
+      },
+      "Bleach": {
+        year: "2004",
+        episodes: "366",
+        studio: "Pierrot",
+        synopsis: "Ichigo gains Soul Reaper powers and defends the living from spirits and hollows."
+      },
+      "Demon Slayer": {
+        year: "2019",
+        episodes: "30+",
+        studio: "Ufotable",
+        synopsis: "Tanjiro becomes a demon slayer to cure his sister and avenge his family."
+      },
+      "Jujutsu Kaisen": {
+        year: "2020",
+        episodes: "24+",
+        studio: "MAPPA",
+        synopsis: "Yuji battles curses after ingesting a powerful cursed object to save his friends."
+      },
+      "My Hero Academia": {
+        year: "2016",
+        episodes: "100+",
+        studio: "Bones",
+        synopsis: "In a world of superpowers, Izuku Midoriya trains to become a top hero."
+      },
+      "Fullmetal Alchemist: Brotherhood": {
+        year: "2009",
+        episodes: "64",
+        studio: "Bones",
+        synopsis: "Two brothers use alchemy to search for the Philosopher's Stone and restore their bodies."
+      },
+      "Vinland Saga": {
+        year: "2019",
+        episodes: "24+",
+        studio: "MAPPA / WIT",
+        synopsis: "A Viking youth pursues revenge across brutal historical battlefields."
+      },
+      "Tokyo Ghoul": {
+        year: "2014",
+        episodes: "48+",
+        studio: "Pierrot",
+        synopsis: "A student becomes part-ghoul and must survive in a world where ghouls feed on humans."
+      },
+      "Black Clover": {
+        year: "2017",
+        episodes: "170+",
+        studio: "Studio Pierrot",
+        synopsis: "Orphan Asta seeks to become the Wizard King despite having no magic."
+      },
+      "Hunter x Hunter": {
+        year: "2011",
+        episodes: "148",
+        studio: "Madhouse",
+        synopsis: "Gon searches for his father and faces dangerous tests to become a Hunter."
+      },
+      "Chainsaw Man": {
+        year: "2022",
+        episodes: "12+",
+        studio: "MAPPA",
+        synopsis: "Denji becomes Chainsaw Man to pay off debts and battles devils with brutal action."
+      },
+      "Fire Force": {
+        year: "2019",
+        episodes: "48+",
+        studio: "David Production",
+        synopsis: "Firefighters with special powers confront spontaneous human combustion and infernal threats."
+      },
+      "Fairy Tail": {
+        year: "2009",
+        episodes: "300+",
+        studio: "A-1 Pictures / Satelight",
+        synopsis: "A guild of wizards takes on quests and battles to protect their friends."
+      },
+      "One Piece": {
+        year: "1999",
+        episodes: "1000+",
+        studio: "Toei",
+        synopsis: "Monkey D. Luffy sails for the One Piece to become Pirate King."
+      },
+      "Sword Art Online": {
+        year: "2012",
+        episodes: "96+",
+        studio: "A-1 Pictures",
+        synopsis: "Players trapped in an MMO must clear the game to survive and escape."
+      },
+      "Fate/Zero": {
+        year: "2011",
+        episodes: "25",
+        studio: "ufotable",
+        synopsis: "Magi and heroic spirits fight in a deadly battle for the Holy Grail."
+      },
+      "Mob Psycho 100": {
+        year: "2016",
+        episodes: "25+",
+        studio: "Bones",
+        synopsis: "A powerful esper struggles with emotions while doing odd-jobs for a con-mentor."
+      },
+      "Trigun Stampede": {
+        year: "2023",
+        episodes: "24+",
+        studio: "TMS Entertainment",
+        synopsis: "A reimagining of the classic tale of Vash the Stampede on a sci-fi frontier world."
+      },
+      "Blue Exorcist": {
+        year: "2011",
+        episodes: "37+",
+        studio: "A-1 Pictures",
+        synopsis: "Rin Okumura trains to become an exorcist after discovering he is the son of Satan."
+      },
+      "Psycho-Pass": {
+        year: "2012",
+        episodes: "41+",
+        studio: "Production I.G",
+        synopsis: "In a surveillance state, officers police crime through a system that reads minds."
+      },
+      "Kill la Kill": {
+        year: "2013",
+        episodes: "24",
+        studio: "Trigger",
+        synopsis: "A student hunts for answers at a school where battle uniforms grant powers."
+      },
+      "Akame ga Kill": {
+        year: "2014",
+        episodes: "24",
+        studio: "White Fox",
+        synopsis: "An assassin group fights an oppressive empire with deadly techniques."
+      },
+      "Tokyo Revengers": {
+        year: "2021",
+        episodes: "24+",
+        studio: "Liden Films",
+        synopsis: "A man time-travels to his youth to save his ex and change a violent future."
+      }
+    };
+
+    // --- UI behavior: hover bubble + modal ---
+    const modal = document.getElementById('modal');
+    const closeModalBtn = document.getElementById('closeModal');
+    const closeBtn = document.getElementById('closeBtn');
+    const searchBtn = document.getElementById('searchBtn');
+    const modalPoster = document.getElementById('modalPoster');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalMeta = document.getElementById('modalMeta');
+    const modalSynopsis = document.getElementById('modalSynopsis');
+
+    // helper to fill modal from info
+    function openModalFrom(title, posterUrl) {
+      const info = animeInfo[title] || {};
+      modalPoster.style.backgroundImage = `url('${posterUrl}')`;
+      modalTitle.textContent = title;
+      const year = info.year || '—';
+      const eps = info.episodes || '—';
+      const studio = info.studio || '—';
+      modalMeta.textContent = `Release: ${year} • Episodes: ${eps} • Studio: ${studio}`;
+      modalSynopsis.textContent = info.synopsis || 'Synopsis not available.';
+      modal.classList.add('active');
+      modal.setAttribute('aria-hidden','false');
+
+      // search button action
+      searchBtn.onclick = () => {
+        window.open('https://www.google.com/search?q=' + encodeURIComponent(title), '_blank');
+      };
+      closeBtn.onclick = closeModal;
+      closeModalBtn.onclick = closeModal;
+    }
+
+    function closeModal(){
+      modal.classList.remove('active');
+      modal.setAttribute('aria-hidden','true');
+    }
+
+    // set hover + click handlers for all cards
+    document.querySelectorAll('.card').forEach(card => {
+      const title = card.dataset.title || card.querySelector('.meta h4').textContent.trim();
+      const thumb = card.querySelector('.thumb');
+      const bg = thumb ? getComputedStyle(thumb).backgroundImage : '';
+      // normalize poster url from style: url("...") => extract path
+      const posterUrl = (bg && bg.startsWith('url')) ? bg.slice(4,-1).replace(/["']/g,'') : '';
+
+      // show bubble on mouseenter
+      card.addEventListener('mouseenter', () => {
+        // populate bubble lines if needed
+        const bubble = card.querySelector('.info-bubble');
+        const info = animeInfo[title] || {};
+        const year = info.year || '—';
+        const eps = info.episodes || '—';
+        bubble.querySelector('.ib-line').textContent = `Release: ${year} • Episodes: ${eps}`;
+        card.classList.add('show-bubble');
+      });
+      card.addEventListener('mouseleave', () => {
+        card.classList.remove('show-bubble');
+      });
+
+      // click opens modal
+      card.addEventListener('click', (e) => {
+        // don't open modal if user clicks something else (not necessary here)
+        openModalFrom(title, posterUrl || '../images/placeholder.jpg');
+      });
+    });
+
+    // close modal when clicking outside content
+    modal.addEventListener('click', (e)=>{
+      if(e.target === modal) closeModal();
+    });
+  </script>
+</body>
+</html>

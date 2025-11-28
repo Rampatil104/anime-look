@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Shonen Anime — OtakuSpot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--muted:#9aa6b2;--accent:#6ef1e0}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:"Poppins",sans-serif;background:linear-gradient(180deg,#05060a,#0b0f17);color:#e6eef6;padding:2rem}
+    .container{max-width:1200px;margin:0 auto}
+    header{display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem}
+    header h1{margin:0;font-size:1.6rem}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem}
+    .card{position:relative;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:.6rem;border:1px solid rgba(255,255,255,0.03);cursor:pointer;transition:transform .18s ease,box-shadow .18s}
+    .card:hover{transform:translateY(-6px);box-shadow:0 12px 28px rgba(2,6,23,0.6)}
+    .thumb{height:220px;border-radius:10px;overflow:hidden;margin-bottom:.6rem;background:#111;background-size:cover;background-position:center}
+    .meta h4{margin:0;font-size:1rem;word-break:break-word}
+    .meta p{margin:.35rem 0 0;color:var(--muted);font-size:.9rem}
+    .info-bubble{position:absolute;left:8px;top:8px;background:rgba(2,6,23,0.9);border:1px solid rgba(255,255,255,0.04);padding:.6rem;border-radius:8px;width:calc(100% - 16px);color:var(--muted);font-size:.85rem;display:none;z-index:20}
+    .card.show-bubble .info-bubble{display:block}
+    .info-bubble strong{color:var(--accent);display:block;margin-bottom:.25rem}
+    /* modal */
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;padding:2rem;z-index:120;visibility:hidden;opacity:0;transition:opacity .16s,visibility .16s}
+    .modal.active{visibility:visible;opacity:1}
+    .modal-content{width:min(900px,95%);max-height:86vh;background:#071018;border-radius:12px;padding:1rem;overflow:auto;border:1px solid rgba(255,255,255,0.04)}
+    .modal-grid{display:grid;grid-template-columns:220px 1fr;gap:1rem;align-items:start}
+    .modal-poster{height:320px;background-size:cover;background-position:center;border-radius:8px;border:1px solid rgba(255,255,255,0.03)}
+    .modal-close{float:right;font-size:1.4rem;color:var(--muted);cursor:pointer;background:none;border:0}
+    .modal h2{margin:0 0 .25rem}
+    .meta-list{color:var(--muted);font-size:.95rem;margin:0 0 .8rem}
+    .synopsis{color:#dfeaf0;line-height:1.45}
+    .btn-row{display:flex;gap:.6rem;margin-top:1rem}
+    .btn{padding:.5rem .8rem;border-radius:8px;border:0;font-weight:700;cursor:pointer}
+    .btn.primary{background:linear-gradient(90deg,var(--accent),#4b8bff);color:#021}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+    @media (max-width:720px){ .modal-grid{grid-template-columns:1fr} .modal-poster{height:240px} .thumb{height:160px} }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Shonen Anime</h1>
+      <div style="margin-left:auto;color:var(--muted)">29 shows</div>
+    </header>
+
+    <section>
+      <div class="grid">
+
+        <!-- Provided shonen titles -->
+
+        <div class="card" data-title="Naruto Shippuden"><div class="info-bubble"><strong>Naruto Shippuden</strong><span class="ib-line">Release: 2007 • Episodes: 500+</span></div><div class="thumb" style="background-image:url('images/naruto-shippuden.jpg')"></div><div class="meta"><h4>Naruto Shippuden</h4><p class="muted">Shonen • Action</p></div></div>
+
+        <div class="card" data-title="One Piece"><div class="info-bubble"><strong>One Piece</strong><span class="ib-line">Release: 1999 • Episodes: 1000+</span></div><div class="thumb" style="background-image:url('images/one-piece.jpg')"></div><div class="meta"><h4>One Piece</h4><p class="muted">Shonen • Adventure</p></div></div>
+
+        <div class="card" data-title="Bleach"><div class="info-bubble"><strong>Bleach</strong><span class="ib-line">Release: 2004 • Episodes: 366</span></div><div class="thumb" style="background-image:url('images/bleach.jpg')"></div><div class="meta"><h4>Bleach</h4><p class="muted">Shonen • Action</p></div></div>
+
+        <div class="card" data-title="Dragon Ball Z"><div class="info-bubble"><strong>Dragon Ball Z</strong><span class="ib-line">Release: 1989 • Episodes: 291</span></div><div class="thumb" style="background-image:url('images/dragon-ball-z.jpg')"></div><div class="meta"><h4>Dragon Ball Z</h4><p class="muted">Shonen • Action</p></div></div>
+
+        <div class="card" data-title="Dragon Ball Super"><div class="info-bubble"><strong>Dragon Ball Super</strong><span class="ib-line">Release: 2015 • Episodes: 131</span></div><div class="thumb" style="background-image:url('images/dragon-ball-super.jpg')"></div><div class="meta"><h4>Dragon Ball Super</h4><p class="muted">Shonen • Action</p></div></div>
+
+        <div class="card" data-title="My Hero Academia"><div class="info-bubble"><strong>My Hero Academia</strong><span class="ib-line">Release: 2016 • Episodes: 100+</span></div><div class="thumb" style="background-image:url('images/my-hero-academia.jpg')"></div><div class="meta"><h4>My Hero Academia</h4><p class="muted">Shonen • Superhero</p></div></div>
+
+        <div class="card" data-title="Jujutsu Kaisen"><div class="info-bubble"><strong>Jujutsu Kaisen</strong><span class="ib-line">Release: 2020 • Episodes: 24+</span></div><div class="thumb" style="background-image:url('images/jujutsu-kaisen.jpg')"></div><div class="meta"><h4>Jujutsu Kaisen</h4><p class="muted">Shonen • Supernatural</p></div></div>
+
+        <div class="card" data-title="Demon Slayer"><div class="info-bubble"><strong>Demon Slayer</strong><span class="ib-line">Release: 2019 • Episodes: 30+</span></div><div class="thumb" style="background-image:url('images/dimon_slayer.jpg')"></div><div class="meta"><h4>Demon Slayer</h4><p class="muted">Shonen • Action</p></div></div>
+
+        <div class="card" data-title="Hunter x Hunter"><div class="info-bubble"><strong>Hunter x Hunter</strong><span class="ib-line">Release: 2011 • Episodes: 148</span></div><div class="thumb" style="background-image:url('images/hunterxhunter.jpg')"></div><div class="meta"><h4>Hunter x Hunter</h4><p class="muted">Shonen • Adventure</p></div></div>
+
+        <div class="card" data-title="Fullmetal Alchemist: Brotherhood"><div class="info-bubble"><strong>Fullmetal Alchemist: Brotherhood</strong><span class="ib-line">Release: 2009 • Episodes: 64</span></div><div class="thumb" style="background-image:url('images/fullmetal-alchemist-brotherhood.jpg')"></div><div class="meta"><h4>Fullmetal Alchemist: Brotherhood</h4><p class="muted">Shonen • Fantasy</p></div></div>
+
+        <div class="card" data-title="Attack on Titan"><div class="info-bubble"><strong>Attack on Titan</strong><span class="ib-line">Release: 2013 • Episodes: 75+</span></div><div class="thumb" style="background-image:url('images/attack-on-titan.jpg')"></div><div class="meta"><h4>Attack on Titan</h4><p class="muted">Shonen • Dark</p></div></div>
+
+        <div class="card" data-title="Black Clover"><div class="info-bubble"><strong>Black Clover</strong><span class="ib-line">Release: 2017 • Episodes: 170+</span></div><div class="thumb" style="background-image:url('images/black_clover.jpg')"></div><div class="meta"><h4>Black Clover</h4><p class="muted">Shonen • Magic</p></div></div>
+
+        <div class="card" data-title="Fairy Tail"><div class="info-bubble"><strong>Fairy Tail</strong><span class="ib-line">Release: 2009 • Episodes: 300+</span></div><div class="thumb" style="background-image:url('images/fairy_tail.jpg')"></div><div class="meta"><h4>Fairy Tail</h4><p class="muted">Shonen • Fantasy</p></div></div>
+
+        <div class="card" data-title="Blue Exorcist"><div class="info-bubble"><strong>Blue Exorcist</strong><span class="ib-line">Release: 2011 • Episodes: 37+</span></div><div class="thumb" style="background-image:url('images/blue_exorcist.jpg')"></div><div class="meta"><h4>Blue Exorcist</h4><p class="muted">Shonen • Supernatural</p></div></div>
+
+        <div class="card" data-title="Soul Eater"><div class="info-bubble"><strong>Soul Eater</strong><span class="ib-line">Release: 2008 • Episodes: 51</span></div><div class="thumb" style="background-image:url('images/soul-eater.jpg')"></div><div class="meta"><h4>Soul Eater</h4><p class="muted">Shonen • Action</p></div></div>
+
+        <div class="card" data-title="Haikyuu!!"><div class="info-bubble"><strong>Haikyuu!!</strong><span class="ib-line">Release: 2014 • Episodes: 85+</span></div><div class="thumb" style="background-image:url('images/haikyuu.jpg')"></div><div class="meta"><h4>Haikyuu!!</h4><p class="muted">Shonen • Sports</p></div></div>
+
+        <div class="card" data-title="Assassination Classroom"><div class="info-bubble"><strong>Assassination Classroom</strong><span class="ib-line">Release: 2015 • Episodes: 47</span></div><div class="thumb" style="background-image:url('images/assassination-classroom.jpg')"></div><div class="meta"><h4>Assassination Classroom</h4><p class="muted">Shonen • Comedy</p></div></div>
+
+        <div class="card" data-title="Yu Yu Hakusho"><div class="info-bubble"><strong>Yu Yu Hakusho</strong><span class="ib-line">Release: 1992 • Episodes: 112</span></div><div class="thumb" style="background-image:url('images/yu-yu-hakusho.jpg')"></div><div class="meta"><h4>Yu Yu Hakusho</h4><p class="muted">Shonen • Supernatural</p></div></div>
+
+        <div class="card" data-title="Tokyo Revengers"><div class="info-bubble"><strong>Tokyo Revengers</strong><span class="ib-line">Release: 2021 • Episodes: 24+</span></div><div class="thumb" style="background-image:url('images/tokyo_revengers.jpg')"></div><div class="meta"><h4>Tokyo Revengers</h4><p class="muted">Shonen • Drama</p></div></div>
+
+        
+
+      </div>
+    </section>
+    
+  </div>
+
+  <!-- modal -->
+  <div id="modal" class="modal" role="dialog" aria-hidden="true">
+    <div class="modal-content" role="document">
+      <button id="closeModal" class="modal-close" aria-label="Close">✕</button>
+      <div class="modal-grid">
+        <div id="modalPoster" class="modal-poster" style="background-image:url('')"></div>
+        <div>
+          <h2 id="modalTitle">Title</h2>
+          <div class="meta-list" id="modalMeta">Release • Episodes • Studio</div>
+          <div class="synopsis" id="modalSynopsis">Full synopsis will appear here.</div>
+          <div class="btn-row">
+            <button id="searchBtn" class="btn ghost">Search web</button>
+            <button id="closeBtn" class="btn primary">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const animeInfo = {
+      "Naruto":{year:"2002",episodes:"220",studio:"Pierrot",synopsis:"Naruto Uzumaki, a young ninja, seeks recognition and dreams of becoming Hokage."},
+      "Naruto Shippuden":{year:"2007",episodes:"500+",studio:"Pierrot",synopsis:"Continuation of Naruto as he matures and faces greater threats."},
+      "One Piece":{year:"1999",episodes:"1000+",studio:"Toei",synopsis:"Luffy sails to become the Pirate King and find the One Piece."},
+      "Bleach":{year:"2004",episodes:"366",studio:"Pierrot",synopsis:"Ichigo becomes a Soul Reaper and defends the living from hollows."},
+      "Dragon Ball Z":{year:"1989",episodes:"291",studio:"Toei",synopsis:"Goku and friends defend Earth from powerful foes."},
+      "Dragon Ball Super":{year:"2015",episodes:"131",studio:"Toei",synopsis:"New threats and multiversal tournaments push heroes further."},
+      "My Hero Academia":{year:"2016",episodes:"100+",studio:"Bones",synopsis:"In a world of quirks, Deku trains to become the greatest hero."},
+      "Jujutsu Kaisen":{year:"2020",episodes:"24+",studio:"MAPPA",synopsis:"Yuji battles curses and trains as a jujutsu sorcerer."},
+      "Demon Slayer":{year:"2019",episodes:"30+",studio:"Ufotable",synopsis:"Tanjiro becomes a demon slayer to save his sister."},
+      "Hunter x Hunter":{year:"2011",episodes:"148",studio:"Madhouse",synopsis:"Gon searches for his father and faces deadly challenges."},
+      "Fullmetal Alchemist: Brotherhood":{year:"2009",episodes:"64",studio:"Bones",synopsis:"Two brothers use alchemy to restore their bodies."},
+      "Attack on Titan":{year:"2013",episodes:"75+",studio:"WIT Studio / MAPPA",synopsis:"Humanity fights gigantic Titans beyond the walls."},
+      "Black Clover":{year:"2017",episodes:"170+",studio:"Pierrot",synopsis:"Asta aims to be Wizard King despite no magic."},
+      "Fairy Tail":{year:"2009",episodes:"300+",studio:"A-1 Pictures / Satelight",synopsis:"A guild of mages takes on dangerous quests."},
+      "Blue Exorcist":{year:"2011",episodes:"37+",studio:"A-1 Pictures",synopsis:"Rin trains to become an exorcist to fight demons."},
+      "Soul Eater":{year:"2008",episodes:"51",studio:"Bones",synopsis:"Meisters and weapons fight supernatural enemies."},
+      "Haikyuu!!":{year:"2014",episodes:"85+",studio:"Production I.G",synopsis:"Volley heroes rise from school gym to national stage."},
+      "Assassination Classroom":{year:"2015",episodes:"47",studio:"Lerche",synopsis:"Students attempt to kill their super-powered teacher to save the world."},
+      "Yu Yu Hakusho":{year:"1992",episodes:"112",studio:"Studio Pierrot",synopsis:"A delinquent becomes Spirit Detective battling demons."},
+      "Tokyo Revengers":{year:"2021",episodes:"24+",studio:"Liden Films",synopsis:"A man time-travels to save his friends and change his fate."}
+    };
+
+    const modal = document.getElementById('modal');
+    const closeModalBtn = document.getElementById('closeModal');
+    const closeBtn = document.getElementById('closeBtn');
+    const searchBtn = document.getElementById('searchBtn');
+    const modalPoster = document.getElementById('modalPoster');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalMeta = document.getElementById('modalMeta');
+    const modalSynopsis = document.getElementById('modalSynopsis');
+
+    function openModalFrom(title, posterUrl){
+      const info = animeInfo[title] || {};
+      modalPoster.style.backgroundImage = `url('${posterUrl}')`;
+      modalTitle.textContent = title;
+      modalMeta.textContent = `Release: ${info.year || '—'} • Episodes: ${info.episodes || '—'} • Studio: ${info.studio || '—'}`;
+      modalSynopsis.textContent = info.synopsis || 'Synopsis not available.';
+      modal.classList.add('active'); modal.setAttribute('aria-hidden','false');
+      searchBtn.onclick = ()=> window.open('https://www.google.com/search?q='+encodeURIComponent(title), '_blank');
+      closeBtn.onclick = closeModal; closeModalBtn.onclick = closeModal;
+    }
+    function closeModal(){ modal.classList.remove('active'); modal.setAttribute('aria-hidden','true'); }
+
+    document.querySelectorAll('.card').forEach(card=>{
+      const title = card.dataset.title || card.querySelector('.meta h4').textContent.trim();
+      const thumb = card.querySelector('.thumb');
+      const bg = thumb ? getComputedStyle(thumb).backgroundImage : '';
+      const posterUrl = (bg && bg.startsWith('url')) ? bg.slice(4,-1).replace(/["']/g,'') : '';
+      card.addEventListener('mouseenter', ()=>{
+        const bubble = card.querySelector('.info-bubble');
+        const info = animeInfo[title] || {};
+        bubble.querySelector('.ib-line').textContent = `Release: ${info.year || '—'} • Episodes: ${info.episodes || '—'}`;
+        card.classList.add('show-bubble');
+      });
+      card.addEventListener('mouseleave', ()=> card.classList.remove('show-bubble'));
+      card.addEventListener('click', ()=> openModalFrom(title, posterUrl || '../images/placeholder.jpg'));
+    });
+
+    modal.addEventListener('click', (e)=>{ if(e.target === modal) closeModal(); });
+  </script>
+</body>
+</html>

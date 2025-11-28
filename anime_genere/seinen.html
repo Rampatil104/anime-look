@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Seinen Anime — OtakuSpot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--muted:#9aa6b2;--accent:#6ef1e0}
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:"Poppins",sans-serif;
+      background:linear-gradient(180deg,#05060a,#0b0f17);
+      color:#e6eef6;
+      padding:2rem;
+    }
+    .container{max-width:1200px;margin:0 auto}
+    header{display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem}
+    header h1{margin:0;font-size:1.6rem}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem}
+    .card{
+      position:relative;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:12px;
+      padding:.6rem;
+      border:1px solid rgba(255,255,255,0.03);
+      cursor:pointer;
+      transition:transform .18s ease,box-shadow .18s
+    }
+    .card:hover{transform:translateY(-6px);box-shadow:0 12px 28px rgba(2,6,23,0.6)}
+    .thumb{
+      height:220px;border-radius:10px;overflow:hidden;
+      margin-bottom:.6rem;background:#111;background-size:cover;background-position:center
+    }
+    .meta h4{margin:0;font-size:1rem;word-break:break-word}
+    .meta p{margin:.35rem 0 0;color:var(--muted);font-size:.9rem}
+
+    .info-bubble{
+      position:absolute;left:8px;top:8px;
+      background:rgba(2,6,23,0.9);
+      border:1px solid rgba(255,255,255,0.04);
+      padding:.6rem;border-radius:8px;
+      width:calc(100% - 16px);
+      color:var(--muted);font-size:.85rem;
+      display:none;z-index:20;
+    }
+    .card.show-bubble .info-bubble{display:block}
+    .info-bubble strong{color:var(--accent);display:block;margin-bottom:.25rem}
+
+    .modal{
+      position:fixed;inset:0;
+      background:rgba(0,0,0,0.7);
+      display:flex;align-items:center;justify-content:center;
+      padding:2rem;z-index:120;
+      visibility:hidden;opacity:0;
+      transition:opacity .16s,visibility .16s
+    }
+    .modal.active{visibility:visible;opacity:1}
+    .modal-content{
+      width:min(900px,95%);
+      max-height:86vh;
+      background:#071018;
+      border-radius:12px;
+      padding:1rem;
+      overflow:auto;
+      border:1px solid rgba(255,255,255,0.04)
+    }
+    .modal-grid{display:grid;grid-template-columns:220px 1fr;gap:1rem;align-items:start}
+    .modal-poster{
+      height:320px;background-size:cover;background-position:center;
+      border-radius:8px;border:1px solid rgba(255,255,255,0.03)
+    }
+    .modal-close{float:right;font-size:1.4rem;color:var(--muted);cursor:pointer;background:none;border:0}
+    .modal h2{margin:0 0 .25rem}
+    .meta-list{color:var(--muted);font-size:.95rem;margin:0 0 .8rem}
+    .synopsis{color:#dfeaf0;line-height:1.45}
+    .btn-row{display:flex;gap:.6rem;margin-top:1rem}
+    .btn{padding:.5rem .8rem;border-radius:8px;border:0;font-weight:700;cursor:pointer}
+    .btn.primary{background:linear-gradient(90deg,var(--accent),#4b8bff);color:#021}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+    @media (max-width:640px){ .thumb{height:160px} .modal-grid{grid-template-columns:1fr} .modal-poster{height:240px} }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Seinen Anime</h1>
+      <div style="margin-left:auto;color:var(--muted)">19 shows</div>
+    </header>
+
+    <section>
+      <div class="grid">
+
+        <!-- cards from your original -->
+        <div class="card" data-title="Berserk">
+          <div class="info-bubble"><strong>Berserk</strong><span class="ib-line">Release: 1997 • Episodes: 25 + movies</span></div>
+          <div class="thumb" style="background-image:url('images/berserk.jpg')"></div>
+          <div class="meta"><h4>Berserk (1997 / Movies)</h4><p class="muted">Seinen • Dark Fantasy</p></div>
+        </div>
+
+        <div class="card" data-title="Vinland Saga">
+          <div class="info-bubble"><strong>Vinland Saga</strong><span class="ib-line">Release: 2019 • Episodes: 40+</span></div>
+          <div class="thumb" style="background-image:url('images/vinland-saga.jpg')"></div>
+          <div class="meta"><h4>Vinland Saga</h4><p class="muted">Seinen • Historical</p></div>
+        </div>
+
+        <div class="card" data-title="Tokyo Ghoul">
+          <div class="info-bubble"><strong>Tokyo Ghoul</strong><span class="ib-line">Release: 2014 • Episodes: 48+</span></div>
+          <div class="thumb" style="background-image:url('images/tokyo-ghoul.jpg')"></div>
+          <div class="meta"><h4>Tokyo Ghoul</h4><p class="muted">Seinen • Dark</p></div>
+        </div>
+
+        <div class="card" data-title="One Punch Man">
+          <div class="info-bubble"><strong>One Punch Man</strong><span class="ib-line">Release: 2015 • Episodes: 24+</span></div>
+          <div class="thumb" style="background-image:url('images/one-punch-man.jpg')"></div>
+          <div class="meta"><h4>One Punch Man</h4><p class="muted">Seinen • Action</p></div>
+        </div>
+
+        <div class="card" data-title="Psycho-Pass">
+          <div class="info-bubble"><strong>Psycho-Pass</strong><span class="ib-line">Release: 2012 • Episodes: 41+</span></div>
+          <div class="thumb" style="background-image:url('images/psycho-pass.jpg')"></div>
+          <div class="meta"><h4>Psycho-Pass</h4><p class="muted">Seinen • Sci-Fi</p></div>
+        </div>
+
+        <div class="card" data-title="Attack on Titan">
+          <div class="info-bubble"><strong>Attack on Titan</strong><span class="ib-line">Release: 2013 • Episodes: 75+</span></div>
+          <div class="thumb" style="background-image:url('images/attack-on-titan.jpg')"></div>
+          <div class="meta"><h4>Attack on Titan</h4><p class="muted">Seinen • Dark</p></div>
+        </div>
+
+        <div class="card" data-title="Parasyte: The Maxim">
+          <div class="info-bubble"><strong>Parasyte: The Maxim</strong><span class="ib-line">Release: 2014 • Episodes: 24</span></div>
+          <div class="thumb" style="background-image:url('images/parasyte.jpg')"></div>
+          <div class="meta"><h4>Parasyte: The Maxim</h4><p class="muted">Seinen • Horror</p></div>
+        </div>
+
+        <div class="card" data-title="Monster">
+          <div class="info-bubble"><strong>Monster</strong><span class="ib-line">Release: 2004 • Episodes: 74</span></div>
+          <div class="thumb" style="background-image:url('images/monster.jpg')"></div>
+          <div class="meta"><h4>Monster</h4><p class="muted">Seinen • Thriller</p></div>
+        </div>
+
+        <div class="card" data-title="Black Lagoon">
+          <div class="info-bubble"><strong>Black Lagoon</strong><span class="ib-line">Release: 2006 • Episodes: 24</span></div>
+          <div class="thumb" style="background-image:url('images/black-lagoon.jpg')"></div>
+          <div class="meta"><h4>Black Lagoon</h4><p class="muted">Seinen • Action</p></div>
+        </div>
+
+        <div class="card" data-title="Hellsing Ultimate">
+          <div class="info-bubble"><strong>Hellsing Ultimate</strong><span class="ib-line">Release: 2006 • Episodes: 10 OVAs</span></div>
+          <div class="thumb" style="background-image:url('images/hellsing-ultimate.jpg')"></div>
+          <div class="meta"><h4>Hellsing Ultimate</h4><p class="muted">Seinen • Horror</p></div>
+        </div>
+
+        <div class="card" data-title="Ergo Proxy">
+          <div class="info-bubble"><strong>Ergo Proxy</strong><span class="ib-line">Release: 2006 • Episodes: 23</span></div>
+          <div class="thumb" style="background-image:url('images/ergo-proxy.jpg')"></div>
+          <div class="meta"><h4>Ergo Proxy</h4><p class="muted">Seinen • Sci-Fi</p></div>
+        </div>
+
+        <div class="card" data-title="Steins;Gate">
+          <div class="info-bubble"><strong>Steins;Gate</strong><span class="ib-line">Release: 2011 • Episodes: 24</span></div>
+          <div class="thumb" style="background-image:url('images/steins-gate.jpg')"></div>
+          <div class="meta"><h4>Steins;Gate</h4><p class="muted">Seinen • Sci-Fi</p></div>
+        </div>
+
+        <div class="card" data-title="Devilman Crybaby">
+          <div class="info-bubble"><strong>Devilman Crybaby</strong><span class="ib-line">Release: 2018 • Episodes: 10</span></div>
+          <div class="thumb" style="background-image:url('images/devilman-crybaby.jpg')"></div>
+          <div class="meta"><h4>Devilman Crybaby</h4><p class="muted">Seinen • Horror</p></div>
+        </div>
+
+        <div class="card" data-title="Ajin: Demi-Human">
+          <div class="info-bubble"><strong>Ajin: Demi-Human</strong><span class="ib-line">Release: 2016 • Episodes: 26</span></div>
+          <div class="thumb" style="background-image:url('images/ajin.jpg')"></div>
+          <div class="meta"><h4>Ajin: Demi-Human</h4><p class="muted">Seinen • Supernatural</p></div>
+        </div>
+
+        <div class="card" data-title="Ghost in the Shell: Stand Alone Complex">
+          <div class="info-bubble"><strong>Ghost in the Shell: SAC</strong><span class="ib-line">Release: 2002 • Episodes: 52</span></div>
+          <div class="thumb" style="background-image:url('images/ghost-in-the-shell-sac.jpg')"></div>
+          <div class="meta"><h4>Ghost in the Shell: Stand Alone Complex</h4><p class="muted">Seinen • Sci-Fi</p></div>
+        </div>
+
+        <div class="card" data-title="Made in Abyss">
+          <div class="info-bubble"><strong>Made in Abyss</strong><span class="ib-line">Release: 2017 • Episodes: 24+</span></div>
+          <div class="thumb" style="background-image:url('images/made-in-abyss.jpg')"></div>
+          <div class="meta"><h4>Made in Abyss</h4><p class="muted">Seinen • Dark Fantasy</p></div>
+        </div>
+
+        <div class="card" data-title="Dororo">
+          <div class="info-bubble"><strong>Dororo</strong><span class="ib-line">Release: 2019 • Episodes: 24</span></div>
+          <div class="thumb" style="background-image:url('images/dororo.jpg')"></div>
+          <div class="meta"><h4>Dororo</h4><p class="muted">Seinen • Samurai</p></div>
+        </div>
+
+        <div class="card" data-title="Blame!">
+          <div class="info-bubble"><strong>Blame!</strong><span class="ib-line">Release: 2017 • Movie</span></div>
+          <div class="thumb" style="background-image:url('images/blame.jpg')"></div>
+          <div class="meta"><h4>Blame!</h4><p class="muted">Seinen • Sci-Fi</p></div>
+        </div>
+
+        <div class="card" data-title="Drifters">
+          <div class="info-bubble"><strong>Drifters</strong><span class="ib-line">Release: 2016 • Episodes: 12</span></div>
+          <div class="thumb" style="background-image:url('images/drifters.jpg')"></div>
+          <div class="meta"><h4>Drifters</h4><p class="muted">Seinen • Historical</p></div>
+        </div>
+
+      </div>
+    </section>
+
+   
+  </div>
+
+  <!-- modal -->
+  <div id="modal" class="modal" role="dialog" aria-hidden="true">
+    <div class="modal-content" role="document">
+      <button id="closeModal" class="modal-close" aria-label="Close">✕</button>
+      <div class="modal-grid">
+        <div id="modalPoster" class="modal-poster"></div>
+        <div>
+          <h2 id="modalTitle">Title</h2>
+          <div class="meta-list" id="modalMeta">Release • Episodes • Studio</div>
+          <div class="synopsis" id="modalSynopsis">Synopsis</div>
+          <div class="btn-row">
+            <button id="searchBtn" class="btn ghost">Search web</button>
+            <button id="closeBtn" class="btn primary">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const animeInfo = {
+      "Berserk":{year:"1997",episodes:"25 + movies",studio:"OLM / others",synopsis:"A lone swordsman struggles against fate in a brutal medieval world."},
+      "Vinland Saga":{year:"2019",episodes:"40+",studio:"Wit Studio / MAPPA",synopsis:"A young warrior seeks revenge in a realistic Viking era."},
+      "Tokyo Ghoul":{year:"2014",episodes:"48+",studio:"Pierrot",synopsis:"A student becomes half-ghoul and fights for survival between two worlds."},
+      "One Punch Man":{year:"2015",episodes:"24+",studio:"Madhouse / J.C.Staff",synopsis:"An overpowered hero searches for a worthy opponent."},
+      "Psycho-Pass":{year:"2012",episodes:"41+",studio:"Production I.G",synopsis:"Inspectors and enforcers uphold justice via a dystopian crime system."},
+      "Attack on Titan":{year:"2013",episodes:"75+",studio:"WIT Studio / MAPPA",synopsis:"Humanity battles Titans beyond massive city walls."},
+      "Parasyte: The Maxim":{year:"2014",episodes:"24",studio:"Madhouse",synopsis:"A teen coexists with a parasite that takes over his hand."},
+      "Monster":{year:"2004",episodes:"74",studio:"Madhouse",synopsis:"A doctor hunts a serial killer whose life he once saved."},
+      "Black Lagoon":{year:"2006",episodes:"24",studio:"Madhouse",synopsis:"Mercenaries run dangerous jobs in a crime-ridden Asian city."},
+      "Hellsing Ultimate":{year:"2006",episodes:"10 OVAs",studio:"Satelight / Madhouse",synopsis:"A vampire works for an organization hunting the undead."},
+      "Ergo Proxy":{year:"2006",episodes:"23",studio:"Manglobe",synopsis:"A dark sci-fi detective story in a domed city with androids."},
+      "Steins;Gate":{year:"2011",episodes:"24",studio:"White Fox",synopsis:"Time travel experiments create dangerous alternate timelines."},
+      "Devilman Crybaby":{year:"2018",episodes:"10",studio:"Science SARU",synopsis:"A boy gains demonic powers to protect humanity from devils."},
+      "Ajin: Demi-Human":{year:"2016",episodes:"26",studio:"Polygon Pictures",synopsis:"Immortal beings called Ajin are hunted by governments."},
+      "Ghost in the Shell: Stand Alone Complex":{year:"2002",episodes:"52",studio:"Production I.G",synopsis:"A cybernetic task force hunts hackers and terrorists."},
+      "Made in Abyss":{year:"2017",episodes:"24+",studio:"Kinema Citrus",synopsis:"A girl and a robot descend into a lethal, mysterious Abyss."},
+      "Dororo":{year:"2019",episodes:"24",studio:"MAPPA / Tezuka Productions",synopsis:"A ronin reclaims stolen body parts from demons."},
+      "Blame!":{year:"2017",episodes:"Movie",studio:"Polygon Pictures",synopsis:"A loner wanders a massive, hostile cyber-structure."},
+      "Drifters":{year:"2016",episodes:"12",studio:"Hoods Drifters Studio",synopsis:"Historical warriors are summoned to fight in a fantasy world."}
+    };
+
+    const modal = document.getElementById('modal');
+    const closeModalBtn = document.getElementById('closeModal');
+    const closeBtn = document.getElementById('closeBtn');
+    const searchBtn = document.getElementById('searchBtn');
+    const modalPoster = document.getElementById('modalPoster');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalMeta = document.getElementById('modalMeta');
+    const modalSynopsis = document.getElementById('modalSynopsis');
+
+    function openModalFrom(title, posterUrl){
+      const info = animeInfo[title] || {};
+      modalPoster.style.backgroundImage = `url('${posterUrl}')`;
+      modalTitle.textContent = title;
+      modalMeta.textContent = `Release: ${info.year || '—'} • Episodes: ${info.episodes || '—'} • Studio: ${info.studio || '—'}`;
+      modalSynopsis.textContent = info.synopsis || 'Synopsis not available.';
+      modal.classList.add('active');
+      modal.setAttribute('aria-hidden','false');
+
+      searchBtn.onclick = ()=> window.open('https://www.google.com/search?q=' + encodeURIComponent(title), '_blank');
+      closeBtn.onclick = closeModal;
+      closeModalBtn.onclick = closeModal;
+    }
+    function closeModal(){
+      modal.classList.remove('active');
+      modal.setAttribute('aria-hidden','true');
+    }
+
+    document.querySelectorAll('.card').forEach(card=>{
+      const title = card.dataset.title || card.querySelector('.meta h4').textContent.trim();
+      const thumb = card.querySelector('.thumb');
+      const bg = thumb ? getComputedStyle(thumb).backgroundImage : '';
+      const posterUrl = (bg && bg.startsWith('url')) ? bg.slice(4,-1).replace(/["']/g,'') : '';
+
+      card.addEventListener('mouseenter', ()=>{
+        const bubble = card.querySelector('.info-bubble');
+        const info = animeInfo[title] || {};
+        bubble.querySelector('.ib-line').textContent =
+          `Release: ${info.year || '—'} • Episodes: ${info.episodes || '—'}`;
+        card.classList.add('show-bubble');
+      });
+
+      card.addEventListener('mouseleave', ()=> card.classList.remove('show-bubble'));
+
+      card.addEventListener('click', ()=> openModalFrom(title, posterUrl || '../images/placeholder.jpg'));
+    });
+
+    modal.addEventListener('click', (e)=>{ if(e.target === modal) closeModal(); });
+  </script>
+</body>
+</html>

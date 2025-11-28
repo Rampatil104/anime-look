@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Romance Anime — OtakuSpot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--muted:#9aa6b2;--accent:#6ef1e0}
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:"Poppins",sans-serif;
+      background:linear-gradient(180deg,#05060a,#0b0f17);
+      color:#e6eef6;
+      padding:2rem
+    }
+    .container{max-width:1200px;margin:0 auto}
+    header{display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem}
+    header h1{margin:0;font-size:1.6rem}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem}
+    .card{
+      position:relative;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:12px;
+      padding:.6rem;
+      border:1px solid rgba(255,255,255,0.03);
+      cursor:pointer;
+      transition:transform .18s ease,box-shadow .18s
+    }
+    .card:hover{transform:translateY(-6px);box-shadow:0 12px 28px rgba(2,6,23,0.6)}
+    .thumb{
+      height:220px;border-radius:10px;overflow:hidden;
+      margin-bottom:.6rem;background:#111;background-size:cover;background-position:center
+    }
+    .meta h4{margin:0;font-size:1rem;word-break:break-word}
+    .meta p{margin:.35rem 0 0;color:var(--muted);font-size:.9rem}
+
+    /* hover bubble */
+    .info-bubble{
+      position:absolute;left:8px;top:8px;
+      background:rgba(2,6,23,0.9);
+      border:1px solid rgba(255,255,255,0.04);
+      padding:.6rem;border-radius:8px;
+      width:calc(100% - 16px);
+      color:var(--muted);font-size:.85rem;
+      display:none;z-index:20
+    }
+    .card.show-bubble .info-bubble{display:block}
+    .info-bubble strong{color:var(--accent);display:block;margin-bottom:.25rem}
+
+    /* modal */
+    .modal{
+      position:fixed;inset:0;
+      background:rgba(0,0,0,0.7);
+      display:flex;align-items:center;justify-content:center;
+      padding:2rem;z-index:120;
+      visibility:hidden;opacity:0;
+      transition:opacity .16s,visibility .16s
+    }
+    .modal.active{visibility:visible;opacity:1}
+    .modal-content{
+      width:min(900px,95%);
+      max-height:86vh;
+      background:#071018;
+      border-radius:12px;
+      padding:1rem;
+      overflow:auto;
+      border:1px solid rgba(255,255,255,0.04)
+    }
+    .modal-grid{display:grid;grid-template-columns:220px 1fr;gap:1rem;align-items:start}
+    .modal-poster{
+      height:320px;background-size:cover;background-position:center;
+      border-radius:8px;border:1px solid rgba(255,255,255,0.03)
+    }
+    .modal-close{float:right;font-size:1.4rem;color:var(--muted);cursor:pointer;background:none;border:0}
+    .modal h2{margin:0 0 .25rem}
+    .meta-list{color:var(--muted);font-size:.95rem;margin:0 0 .8rem}
+    .synopsis{color:#dfeaf0;line-height:1.45}
+    .btn-row{display:flex;gap:.6rem;margin-top:1rem}
+    .btn{padding:.5rem .8rem;border-radius:8px;border:0;font-weight:700;cursor:pointer}
+    .btn.primary{background:linear-gradient(90deg,var(--accent),#4b8bff);color:#021}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+    @media (max-width:720px){
+      .modal-grid{grid-template-columns:1fr}
+      .modal-poster{height:240px}
+      .thumb{height:160px}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header><h1>Romance Anime</h1><div style="margin-left:auto;color:var(--muted)">21 shows</div></header>
+    <section><div class="grid">
+
+      <!-- 1 -->
+      <div class="card" data-title="Your Lie in April">
+        <div class="info-bubble"><strong>Your Lie in April</strong><span class="ib-line">Release: 2014 • Episodes: 22</span></div>
+        <div class="thumb" style="background-image:url('images/your-lie-in-april.jpg')"></div>
+        <div class="meta"><h4>Your Lie in April</h4><p class="muted">Romance • Drama</p></div>
+      </div>
+
+      <!-- 2 -->
+      <div class="card" data-title="Toradora!">
+        <div class="info-bubble"><strong>Toradora!</strong><span class="ib-line">Release: 2008 • Episodes: 25</span></div>
+        <div class="thumb" style="background-image:url('images/toradora.jpg')"></div>
+        <div class="meta"><h4>Toradora!</h4><p class="muted">Romance • Comedy</p></div>
+      </div>
+
+      <!-- 3 -->
+      <div class="card" data-title="Kaguya-sama: Love is War">
+        <div class="info-bubble"><strong>Kaguya-sama: Love is War</strong><span class="ib-line">Release: 2019 • Episodes: 36+</span></div>
+        <div class="thumb" style="background-image:url('images/kaguya-sama-love-is-war.jpg')"></div>
+        <div class="meta"><h4>Kaguya-sama: Love is War</h4><p class="muted">Romance • Comedy</p></div>
+      </div>
+
+      <!-- 4 -->
+      <div class="card" data-title="Clannad">
+        <div class="info-bubble"><strong>Clannad</strong><span class="ib-line">Release: 2007 • Episodes: 23</span></div>
+        <div class="thumb" style="background-image:url('images/clannad.jpg')"></div>
+        <div class="meta"><h4>Clannad</h4><p class="muted">Romance • Drama</p></div>
+      </div>
+
+      <!-- 5 -->
+      <div class="card" data-title="Clannad: After Story">
+        <div class="info-bubble"><strong>Clannad: After Story</strong><span class="ib-line">Release: 2008 • Episodes: 24</span></div>
+        <div class="thumb" style="background-image:url('images/clannad-after-story.jpg')"></div>
+        <div class="meta"><h4>Clannad: After Story</h4><p class="muted">Romance • Drama</p></div>
+      </div>
+
+      <!-- 6 -->
+      <div class="card" data-title="Horimiya">
+        <div class="info-bubble"><strong>Horimiya</strong><span class="ib-line">Release: 2021 • Episodes: 13</span></div>
+        <div class="thumb" style="background-image:url('images/horimiya.jpg')"></div>
+        <div class="meta"><h4>Horimiya</h4><p class="muted">Romance • Slice of Life</p></div>
+      </div>
+
+      <!-- 7 -->
+      <div class="card" data-title="Fruits Basket (2019)">
+        <div class="info-bubble"><strong>Fruits Basket (2019)</strong><span class="ib-line">Release: 2019 • Episodes: 63</span></div>
+        <div class="thumb" style="background-image:url('images/fruits-basket-2019.jpg')"></div>
+        <div class="meta"><h4>Fruits Basket (2019)</h4><p class="muted">Romance • Drama</p></div>
+      </div>
+
+      <!-- 8 -->
+      <div class="card" data-title="My Dress-Up Darling">
+        <div class="info-bubble"><strong>My Dress-Up Darling</strong><span class="ib-line">Release: 2022 • Episodes: 12</span></div>
+        <div class="thumb" style="background-image:url('images/my-dress-up-darling.jpg')"></div>
+        <div class="meta"><h4>My Dress-Up Darling</h4><p class="muted">Romance • Comedy</p></div>
+      </div>
+
+      <!-- 9 -->
+      <div class="card" data-title="Your Name">
+        <div class="info-bubble"><strong>Your Name</strong><span class="ib-line">Release: 2016 • Movie</span></div>
+        <div class="thumb" style="background-image:url('images/your-name.jpg')"></div>
+        <div class="meta"><h4>Your Name</h4><p class="muted">Romance • Movie</p></div>
+      </div>
+
+      <!-- 10 -->
+      <div class="card" data-title="Weathering With You">
+        <div class="info-bubble"><strong>Weathering With You</strong><span class="ib-line">Release: 2019 • Movie</span></div>
+        <div class="thumb" style="background-image:url('images/weathering-with-you.jpg')"></div>
+        <div class="meta"><h4>Weathering With You</h4><p class="muted">Romance • Movie</p></div>
+      </div>
+
+      <!-- 11 -->
+      <div class="card" data-title="A Silent Voice">
+        <div class="info-bubble"><strong>A Silent Voice</strong><span class="ib-line">Release: 2016 • Movie</span></div>
+        <div class="thumb" style="background-image:url('images/a-silent-voice.jpg')"></div>
+        <div class="meta"><h4>A Silent Voice</h4><p class="muted">Romance • Drama</p></div>
+      </div>
+
+      <!-- 12 -->
+      <div class="card" data-title="ReLIFE">
+        <div class="info-bubble"><strong>ReLIFE</strong><span class="ib-line">Release: 2016 • Episodes: 13</span></div>
+        <div class="thumb" style="background-image:url('images/relife.jpg')"></div>
+        <div class="meta"><h4>ReLIFE</h4><p class="muted">Romance • Drama</p></div>
+      </div>
+
+      <!-- 13 -->
+      <div class="card" data-title="Lovely★Complex">
+        <div class="info-bubble"><strong>Lovely★Complex</strong><span class="ib-line">Release: 2007 • Episodes: 24</span></div>
+        <div class="thumb" style="background-image:url('images/lovely-complex.jpg')"></div>
+        <div class="meta"><h4>Lovely★Complex</h4><p class="muted">Romance • Comedy</p></div>
+      </div>
+
+      <!-- 14 -->
+      <div class="card" data-title="Golden Time">
+        <div class="info-bubble"><strong>Golden Time</strong><span class="ib-line">Release: 2013 • Episodes: 24</span></div>
+        <div class="thumb" style="background-image:url('images/golden-time.jpg')"></div>
+        <div class="meta"><h4>Golden Time</h4><p class="muted">Romance • Drama</p></div>
+      </div>
+
+      <!-- 15 -->
+      <div class="card" data-title="The Angel Next Door Spoils Me Rotten">
+        <div class="info-bubble"><strong>The Angel Next Door Spoils Me Rotten</strong><span class="ib-line">Release: 2023 • Episodes: 12+</span></div>
+        <div class="thumb" style="background-image:url('images/the-angel-next-door-spoils-me-rotten.jpg')"></div>
+        <div class="meta"><h4>The Angel Next Door Spoils Me Rotten</h4><p class="muted">Romance • Slice of Life</p></div>
+      </div>
+
+      <!-- 16 -->
+      <div class="card" data-title="The Dangers in My Heart">
+        <div class="info-bubble"><strong>The Dangers in My Heart</strong><span class="ib-line">Release: 2024 • Episodes: 12+</span></div>
+        <div class="thumb" style="background-image:url('images/the-dangers-in-my-heart.jpg')"></div>
+        <div class="meta"><h4>The Dangers in My Heart</h4><p class="muted">Romance • School</p></div>
+      </div>
+
+      <!-- 17 -->
+      <div class="card" data-title="Anohana">
+        <div class="info-bubble"><strong>Anohana: The Flower We Saw That Day</strong><span class="ib-line">Release: 2011 • Episodes: 11</span></div>
+        <div class="thumb" style="background-image:url('images/anohana.jpg')"></div>
+        <div class="meta"><h4>Anohana: The Flower We Saw That Day</h4><p class="muted">Romance • Drama</p></div>
+      </div>
+
+      <!-- 18 -->
+      <div class="card" data-title="Nisekoi">
+        <div class="info-bubble"><strong>Nisekoi</strong><span class="ib-line">Release: 2014 • Episodes: 32</span></div>
+        <div class="thumb" style="background-image:url('images/nisekoi.jpg')"></div>
+        <div class="meta"><h4>Nisekoi</h4><p class="muted">Romance • Comedy</p></div>
+      </div>
+
+      <!-- 19 -->
+      <div class="card" data-title="Rent-a-Girlfriend">
+        <div class="info-bubble"><strong>Rent-a-Girlfriend</strong><span class="ib-line">Release: 2020 • Episodes: 24+</span></div>
+        <div class="thumb" style="background-image:url('images/rent-a-girlfriend.jpg')"></div>
+        <div class="meta"><h4>Rent-a-Girlfriend</h4><p class="muted">Romance • Drama</p></div>
+      </div>
+
+      <!-- 20 -->
+      <div class="card" data-title="Oregairu (My Teen Romantic Comedy SNAFU)">
+        <div class="info-bubble"><strong>Oregairu</strong><span class="ib-line">Release: 2013 • Episodes: 39</span></div>
+        <div class="thumb" style="background-image:url('images/oregairu.jpg')"></div>
+        <div class="meta"><h4>Oregairu (My Teen Romantic Comedy SNAFU)</h4><p class="muted">Romance • Drama</p></div>
+      </div>
+
+      <!-- 21 -->
+      <div class="card" data-title="Fragment Flower Bloom With Dignity">
+        <div class="info-bubble"><strong>Fragment Flower Bloom With Dignity</strong><span class="ib-line">Release: — • Episodes: —</span></div>
+        <div class="thumb" style="background-image:url('images/fragment-flower-bloom-with-dignity.jpg')"></div>
+        <div class="meta"><h4>Fragment Flower Bloom With Dignity</h4><p class="muted">Romance</p></div>
+      </div>
+
+    </div></section>
+
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal" role="dialog" aria-hidden="true">
+    <div class="modal-content" role="document">
+      <button id="closeModal" class="modal-close" aria-label="Close">✕</button>
+      <div class="modal-grid">
+        <div id="modalPoster" class="modal-poster"></div>
+        <div>
+          <h2 id="modalTitle">Title</h2>
+          <div class="meta-list" id="modalMeta">Release • Episodes • Studio</div>
+          <div class="synopsis" id="modalSynopsis">Synopsis</div>
+          <div class="btn-row">
+            <button id="searchBtn" class="btn ghost">Search web</button>
+            <button id="closeBtn" class="btn primary">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const animeInfo = {
+      "Your Lie in April":{year:"2014",episodes:"22",studio:"A-1 Pictures",synopsis:"A piano prodigy rediscovers music and love after meeting a free-spirited violinist."},
+      "Toradora!":{year:"2008",episodes:"25",studio:"J.C.Staff",synopsis:"Two classmates help each other with their crushes and slowly fall in love."},
+      "Kaguya-sama: Love is War":{year:"2019",episodes:"36+",studio:"A-1 Pictures",synopsis:"Two geniuses wage a mind game to make the other confess first."},
+      "Clannad":{year:"2007",episodes:"23",studio:"Kyoto Animation",synopsis:"A delinquent meets a strange girl and his life gradually changes."},
+      "Clannad: After Story":{year:"2008",episodes:"24",studio:"Kyoto Animation",synopsis:"The continuation of Tomoya and Nagisa's story into adulthood."},
+      "Horimiya":{year:"2021",episodes:"13",studio:"CloverWorks",synopsis:"A popular girl and a quiet boy discover each other's hidden sides."},
+      "Fruits Basket (2019)":{year:"2019",episodes:"63",studio:"TMS Entertainment",synopsis:"A kind girl gets involved with a family cursed by the zodiac spirits."},
+      "My Dress-Up Darling":{year:"2022",episodes:"12",studio:"CloverWorks",synopsis:"A shy doll-maker and a gyaru cosplayer bond over cosplay projects."},
+      "Your Name":{year:"2016",episodes:"Movie",studio:"CoMix Wave Films",synopsis:"Two teens mysteriously swap bodies and form a deep connection."},
+      "Weathering With You":{year:"2019",episodes:"Movie",studio:"CoMix Wave Films",synopsis:"A runaway meets a girl with the power to control the weather."},
+      "A Silent Voice":{year:"2016",episodes:"Movie",studio:"Kyoto Animation",synopsis:"A former bully seeks redemption from the deaf girl he once tormented."},
+      "ReLIFE":{year:"2016",episodes:"13",studio:"TMS Entertainment",synopsis:"A man gets to redo high school for one year to fix his life."},
+      "Lovely★Complex":{year:"2007",episodes:"24",studio:"Toei Animation",synopsis:"A tall girl and short boy struggle with love and self-esteem."},
+      "Golden Time":{year:"2013",episodes:"24",studio:"J.C.Staff",synopsis:"College romance mixed with memory loss and identity issues."},
+      "The Angel Next Door Spoils Me Rotten":{year:"2023",episodes:"12+",studio:"Project No.9",synopsis:"A quiet boy is looked after by his beautiful, kind neighbor."},
+      "The Dangers in My Heart":{year:"2023",episodes:"12+",studio:"Shin-Ei Animation",synopsis:"A gloomy boy with wild fantasies slowly opens up to a classmate."},
+      "Anohana: The Flower We Saw That Day":{year:"2011",episodes:"11",studio:"A-1 Pictures",synopsis:"Childhood friends reunite to fulfill the wish of a departed friend."},
+      "Nisekoi":{year:"2014",episodes:"32",studio:"Shaft",synopsis:"A yakuza heir and a rival gang’s daughter must pretend to date."},
+      "Rent-a-Girlfriend":{year:"2020",episodes:"24+",studio:"TMS Entertainment",synopsis:"A lonely college student uses a rental girlfriend service."},
+      "Oregairu (My Teen Romantic Comedy SNAFU)":{year:"2013",episodes:"39",studio:"Brain's Base / feel.",synopsis:"A cynical loner is forced into a school service club."},
+      "Fragment Flower Bloom With Dignity":{year:"—",episodes:"—",studio:"—",synopsis:"Custom entry for your own romance concept."}
+    };
+
+    const modal = document.getElementById('modal');
+    const closeModalBtn = document.getElementById('closeModal');
+    const closeBtn = document.getElementById('closeBtn');
+    const searchBtn = document.getElementById('searchBtn');
+    const modalPoster = document.getElementById('modalPoster');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalMeta = document.getElementById('modalMeta');
+    const modalSynopsis = document.getElementById('modalSynopsis');
+
+    function openModalFrom(title, posterUrl){
+      const info = animeInfo[title] || {};
+      modalPoster.style.backgroundImage = `url('${posterUrl}')`;
+      modalTitle.textContent = title;
+      modalMeta.textContent = `Release: ${info.year || '—'} • Episodes: ${info.episodes || '—'} • Studio: ${info.studio || '—'}`;
+      modalSynopsis.textContent = info.synopsis || 'Synopsis not available.';
+      modal.classList.add('active');
+      modal.setAttribute('aria-hidden','false');
+
+      searchBtn.onclick = ()=> window.open('https://www.google.com/search?q=' + encodeURIComponent(title), '_blank');
+      closeBtn.onclick = closeModal;
+      closeModalBtn.onclick = closeModal;
+    }
+
+    function closeModal(){
+      modal.classList.remove('active');
+      modal.setAttribute('aria-hidden','true');
+    }
+
+    document.querySelectorAll('.card').forEach(card=>{
+      const title = card.dataset.title || card.querySelector('.meta h4').textContent.trim();
+      const thumb = card.querySelector('.thumb');
+      const bg = thumb ? getComputedStyle(thumb).backgroundImage : '';
+      const posterUrl = (bg && bg.startsWith('url')) ? bg.slice(4,-1).replace(/["']/g,'') : '';
+
+      card.addEventListener('mouseenter', ()=>{
+        const bubble = card.querySelector('.info-bubble');
+        const info = animeInfo[title] || {};
+        bubble.querySelector('.ib-line').textContent =
+          `Release: ${info.year || '—'} • Episodes: ${info.episodes || '—'}`;
+        card.classList.add('show-bubble');
+      });
+
+      card.addEventListener('mouseleave', ()=> card.classList.remove('show-bubble'));
+
+      card.addEventListener('click', ()=>{
+        openModalFrom(title, posterUrl || 'images/placeholder.jpg');
+      });
+    });
+
+    modal.addEventListener('click', (e)=>{ if(e.target === modal) closeModal(); });
+  </script>
+</body>
+</html>

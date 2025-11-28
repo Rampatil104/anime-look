@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Slice of Life Anime — OtakuSpot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--muted:#9aa6b2;--accent:#6ef1e0}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:"Poppins",sans-serif;background:linear-gradient(180deg,#05060a,#0b0f17);color:#e6eef6;padding:2rem}
+    .container{max-width:1200px;margin:0 auto}
+    header{display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem}
+    header h1{margin:0;font-size:1.6rem}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem}
+    .card{position:relative;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:.6rem;border:1px solid rgba(255,255,255,0.03);cursor:pointer;transition:transform .18s ease,box-shadow .18s}
+    .card:hover{transform:translateY(-6px);box-shadow:0 12px 28px rgba(2,6,23,0.6)}
+    .thumb{height:220px;border-radius:10px;overflow:hidden;margin-bottom:.6rem;background:#111;background-size:cover;background-position:center}
+    .meta h4{margin:0;font-size:1rem;word-break:break-word}
+    .meta p{margin:.35rem 0 0;color:var(--muted);font-size:.9rem}
+    .info-bubble{position:absolute;left:8px;top:8px;background:rgba(2,6,23,0.9);border:1px solid rgba(255,255,255,0.04);padding:.6rem;border-radius:8px;width:calc(100% - 16px);color:var(--muted);font-size:.85rem;display:none;z-index:20}
+    .card.show-bubble .info-bubble{display:block}
+    .info-bubble strong{color:var(--accent);display:block;margin-bottom:.25rem}
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;padding:2rem;z-index:120;visibility:hidden;opacity:0;transition:opacity .16s,visibility .16s}
+    .modal.active{visibility:visible;opacity:1}
+    .modal-content{width:min(900px,95%);max-height:86vh;background:#071018;border-radius:12px;padding:1rem;overflow:auto;border:1px solid rgba(255,255,255,0.04)}
+    .modal-grid{display:grid;grid-template-columns:220px 1fr;gap:1rem;align-items:start}
+    .modal-poster{height:320px;background-size:cover;background-position:center;border-radius:8px;border:1px solid rgba(255,255,255,0.03)}
+    .modal-close{float:right;font-size:1.4rem;color:var(--muted);cursor:pointer;background:none;border:0}
+    .modal h2{margin:0 0 .25rem}
+    .meta-list{color:var(--muted);font-size:.95rem;margin:0 0 .8rem}
+    .synopsis{color:#dfeaf0;line-height:1.45}
+    .btn-row{display:flex;gap:.6rem;margin-top:1rem}
+    .btn{padding:.5rem .8rem;border-radius:8px;border:0;font-weight:700;cursor:pointer}
+    .btn.primary{background:linear-gradient(90deg,var(--accent),#4b8bff);color:#021}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+    @media (max-width:720px){ .modal-grid{grid-template-columns:1fr} .modal-poster{height:240px} .thumb{height:160px} }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Slice of Life</h1>
+      <div style="margin-left:auto;color:var(--muted)">29 shows</div>
+    </header>
+
+    <section>
+      <div class="grid">
+
+        <!-- Provided slice-of-life titles -->
+        <div class="card" data-title="Barakamon"><div class="info-bubble"><strong>Barakamon</strong><span class="ib-line">Release: 2014 • Episodes: 12</span></div><div class="thumb" style="background-image:url('images/barakamon.jpg')"></div><div class="meta"><h4>Barakamon</h4><p class="muted">Slice of Life • Comedy</p></div></div>
+
+        <div class="card" data-title="March Comes in Like a Lion"><div class="info-bubble"><strong>March Comes in Like a Lion</strong><span class="ib-line">Release: 2016 • Episodes: 44</span></div><div class="thumb" style="background-image:url('images/march-comes-in-like-a-lion.jpg')"></div><div class="meta"><h4>March Comes in Like a Lion</h4><p class="muted">Slice of Life • Drama</p></div></div>
+
+        <div class="card" data-title="Your Lie in April"><div class="info-bubble"><strong>Your Lie in April</strong><span class="ib-line">Release: 2014 • Episodes: 22</span></div><div class="thumb" style="background-image:url('images/your-lie-in-april.jpg')"></div><div class="meta"><h4>Your Lie in April</h4><p class="muted">Slice of Life • Music</p></div></div>
+
+        <div class="card" data-title="Hyouka"><div class="info-bubble"><strong>Hyouka</strong><span class="ib-line">Release: 2012 • Episodes: 22</span></div><div class="thumb" style="background-image:url('images/hyouka.jpg')"></div><div class="meta"><h4>Hyouka</h4><p class="muted">Slice of Life • Mystery</p></div></div>
+
+        <div class="card" data-title="Clannad"><div class="info-bubble"><strong>Clannad</strong><span class="ib-line">Release: 2007 • Episodes: 23</span></div><div class="thumb" style="background-image:url('images/clannad.jpg')"></div><div class="meta"><h4>Clannad</h4><p class="muted">Slice of Life • Drama</p></div></div>
+
+        <div class="card" data-title="Clannad After Story"><div class="info-bubble"><strong>Clannad: After Story</strong><span class="ib-line">Release: 2008 • Episodes: 24</span></div><div class="thumb" style="background-image:url('images/clannad-after-story.jpg')"></div><div class="meta"><h4>Clannad: After Story</h4><p class="muted">Slice of Life • Drama</p></div></div>
+
+        <div class="card" data-title="Nichijou"><div class="info-bubble"><strong>Nichijou</strong><span class="ib-line">Release: 2011 • Episodes: 26</span></div><div class="thumb" style="background-image:url('images/nichijou.jpg')"></div><div class="meta"><h4>Nichijou</h4><p class="muted">Slice of Life • Comedy</p></div></div>
+
+        <div class="card" data-title="Violet Evergarden"><div class="info-bubble"><strong>Violet Evergarden</strong><span class="ib-line">Release: 2018 • Episodes: 13</span></div><div class="thumb" style="background-image:url('images/violet-evergarden.jpg')"></div><div class="meta"><h4>Violet Evergarden</h4><p class="muted">Slice of Life • Drama</p></div></div>
+
+        <div class="card" data-title="K-On!"><div class="info-bubble"><strong>K-On!</strong><span class="ib-line">Release: 2009 • Episodes: 39</span></div><div class="thumb" style="background-image:url('images/k-on.jpg')"></div><div class="meta"><h4>K-On!</h4><p class="muted">Slice of Life • Music</p></div></div>
+
+        <div class="card" data-title="Tanaka-kun Is Always Listless"><div class="info-bubble"><strong>Tanaka-kun Is Always Listless</strong><span class="ib-line">Release: 2016 • Episodes: 12</span></div><div class="thumb" style="background-image:url('images/Tanaka-kun-Is-Always-Listless.jpg')"></div><div class="meta"><h4>Tanaka-kun Is Always Listless</h4><p class="muted">Slice of Life • Comedy</p></div></div>
+
+        <div class="card" data-title="Daily Lives of High School Boys"><div class="info-bubble"><strong>Daily Lives of High School Boys</strong><span class="ib-line">Release: 2012 • Episodes: 12</span></div><div class="thumb" style="background-image:url('images/daily-lives-of-high-school-boys.jpg')"></div><div class="meta"><h4>Daily Lives of High School Boys</h4><p class="muted">Slice of Life • Comedy</p></div></div>
+
+        <div class="card" data-title="Non Non Biyori"><div class="info-bubble"><strong>Non Non Biyori</strong><span class="ib-line">Release: 2013 • Episodes: 24+</span></div><div class="thumb" style="background-image:url('images/non-non-biyori.jpg')"></div><div class="meta"><h4>Non Non Biyori</h4><p class="muted">Slice of Life • Rural</p></div></div>
+
+        <div class="card" data-title="Anohana"><div class="info-bubble"><strong>Anohana: The Flower We Saw That Day</strong><span class="ib-line">Release: 2011 • Episodes: 11</span></div><div class="thumb" style="background-image:url('images/anohana.jpg')"></div><div class="meta"><h4>Anohana: The Flower We Saw That Day</h4><p class="muted">Slice of Life • Drama</p></div></div>
+
+        <div class="card" data-title="A Silent Voice"><div class="info-bubble"><strong>A Silent Voice</strong><span class="ib-line">Release: 2016 • Movie</span></div><div class="thumb" style="background-image:url('images/a-silent-voice.jpg')"></div><div class="meta"><h4>A Silent Voice</h4><p class="muted">Slice of Life • Drama</p></div></div>
+
+        <div class="card" data-title="Silver Spoon"><div class="info-bubble"><strong>Silver Spoon</strong><span class="ib-line">Release: 2013 • Episodes: 22</span></div><div class="thumb" style="background-image:url('images/silver-spoon.jpg')"></div><div class="meta"><h4>Silver Spoon</h4><p class="muted">Slice of Life • School</p></div></div>
+
+        <div class="card" data-title="Laid-Back Camp"><div class="info-bubble"><strong>Laid-Back Camp</strong><span class="ib-line">Release: 2018 • Episodes: 24+</span></div><div class="thumb" style="background-image:url('images/laid-back-camp.jpg')"></div><div class="meta"><h4>Laid-Back Camp</h4><p class="muted">Slice of Life • Travel</p></div></div>
+
+        <div class="card" data-title="The Pet Girl of Sakurasou"><div class="info-bubble"><strong>The Pet Girl of Sakurasou</strong><span class="ib-line">Release: 2012 • Episodes: 24</span></div><div class="thumb" style="background-image:url('images/the-pet-girl-of-sakurasou.jpg')"></div><div class="meta"><h4>The Pet Girl of Sakurasou</h4><p class="muted">Slice of Life • Romance</p></div></div>
+
+        <div class="card" data-title="Fruits Basket (2019)"><div class="info-bubble"><strong>Fruits Basket (2019)</strong><span class="ib-line">Release: 2019 • Episodes: 63</span></div><div class="thumb" style="background-image:url('images/fruits-basket-2019.jpg')"></div><div class="meta"><h4>Fruits Basket (2019)</h4><p class="muted">Slice of Life • Drama</p></div></div>
+
+        <div class="card" data-title="Sweetness & Lightning"><div class="info-bubble"><strong>Sweetness & Lightning</strong><span class="ib-line">Release: 2016 • Episodes: 12</span></div><div class="thumb" style="background-image:url('images/sweetness-and-lightning.jpg')"></div><div class="meta"><h4>Sweetness & Lightning</h4><p class="muted">Slice of Life • Food</p></div></div>
+
+        <div class="card" data-title="My Senpai Is Annoying"><div class="info-bubble"><strong>My Senpai Is Annoying</strong><span class="ib-line">Release: 2022 • Episodes: 12+</span></div><div class="thumb" style="background-image:url('images/my-senpai-is-annoying.jpg')"></div><div class="meta"><h4>My Senpai Is Annoying</h4><p class="muted">Slice of Life • Workplace</p></div></div>
+
+        <div class="card" data-title="Blue Period"><div class="info-bubble"><strong>Blue Period</strong><span class="ib-line">Release: 2021 • Episodes: 12+</span></div><div class="thumb" style="background-image:url('images/blue-period.jpg')"></div><div class="meta"><h4>Blue Period</h4><p class="muted">Slice of Life • Art</p></div></div>
+
+
+       
+
+      </div>
+    </section>
+
+  </div>
+
+  <!-- modal -->
+  <div id="modal" class="modal" role="dialog" aria-hidden="true">
+    <div class="modal-content" role="document">
+      <button id="closeModal" class="modal-close" aria-label="Close">✕</button>
+      <div class="modal-grid">
+        <div id="modalPoster" class="modal-poster" style="background-image:url('')"></div>
+        <div>
+          <h2 id="modalTitle">Title</h2>
+          <div class="meta-list" id="modalMeta">Release • Episodes • Studio</div>
+          <div class="synopsis" id="modalSynopsis">Short synopsis will appear here.</div>
+          <div class="btn-row">
+            <button id="searchBtn" class="btn ghost">Search web</button>
+            <button id="closeBtn" class="btn primary">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const animeInfo = {
+      "Barakamon":{year:"2014",episodes:"12",studio:"Kinema Citrus",synopsis:"A calligrapher learns life lessons on a remote island."},
+      "March Comes in Like a Lion":{year:"2016",episodes:"44",studio:"Shaft",synopsis:"A professional shogi player copes with loss and friendship."},
+      "Your Lie in April":{year:"2014",episodes:"22",studio:"A-1 Pictures",synopsis:"A prodigy rediscovers music after meeting a violinist."},
+      "Hyouka":{year:"2012",episodes:"22",studio:"Kyoto Animation",synopsis:"A club solves small mysteries and uncovers feelings."},
+      "Clannad":{year:"2007",episodes:"23",studio:"Kyoto Animation",synopsis:"A touching story about friendships and family."},
+      "Clannad After Story":{year:"2008",episodes:"24",studio:"Kyoto Animation",synopsis:"Life after school — love, loss, and growth."},
+      "Nichijou":{year:"2011",episodes:"26",studio:"Kyoto Animation",synopsis:"Absurd comedy covering the daily lives of students."},
+      "Violet Evergarden":{year:"2018",episodes:"13",studio:"Kyoto Animation",synopsis:"A former soldier learns to understand emotions through letters."},
+      "K-On!":{year:"2009",episodes:"39",studio:"Kyoto Animation",synopsis:"High school girls form a light music club and bond."},
+      "Tanaka-kun Is Always Listless":{year:"2016",episodes:"12",studio:"Silver Link",synopsis:"A comedically lazy student's laid-back antics."},
+      "Daily Lives of High School Boys":{year:"2012",episodes:"12",studio:"Sunrise",synopsis:"Slice-of-life comedy about three high school boys."},
+      "Non Non Biyori":{year:"2013",episodes:"24+",studio:"Silver Link",synopsis:"Relaxed rural life through the eyes of school kids."},
+      "Anohana: The Flower We Saw That Day":{year:"2011",episodes:"11",studio:"A-1 Pictures",synopsis:"Friends reunite to mourn and remember a lost friend."},
+      "A Silent Voice":{year:"2016",episodes:"Movie",studio:"Kyoto Animation",synopsis:"A moving film about bullying, guilt, and redemption."},
+      "Silver Spoon":{year:"2013",episodes:"22",studio:"A-1 Pictures",synopsis:"Agricultural school life teaches practical lessons."},
+      "Laid-Back Camp":{year:"2018",episodes:"24+",studio:"C-Station",synopsis:"Girls go camping and enjoy slow, cozy adventures."},
+      "The Pet Girl of Sakurasou":{year:"2012",episodes:"24",studio:"J.C.Staff",synopsis:"Students in a quirky dorm learn about growing up."},
+      "Fruits Basket (2019)":{year:"2019",episodes:"63",studio:"TMS Entertainment",synopsis:"A girl helps a cursed family heal through love."},
+      "Sweetness & Lightning":{year:"2016",episodes:"12",studio:"TMS Entertainment",synopsis:"A single dad learns to cook and bond with his daughter."},
+      "My Senpai Is Annoying":{year:"2022",episodes:"12+",studio:"Doga Kobo",synopsis:"Workplace romcom about a junior and her boisterous senpai."},
+      "Blue Period":{year:"2021",episodes:"12+",studio:"Seven Arcs",synopsis:"A student discovers passion for art and college dreams."},
+      "Welcome to the N.H.K.":{year:"2006",episodes:"24",studio:"Gonzo",synopsis:"A recluse's darkly comic struggle with society and himself."}
+    };
+
+    const modal = document.getElementById('modal');
+    const closeModalBtn = document.getElementById('closeModal');
+    const closeBtn = document.getElementById('closeBtn');
+    const searchBtn = document.getElementById('searchBtn');
+    const modalPoster = document.getElementById('modalPoster');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalMeta = document.getElementById('modalMeta');
+    const modalSynopsis = document.getElementById('modalSynopsis');
+
+    function openModalFrom(title, posterUrl){
+      const info = animeInfo[title] || {};
+      modalPoster.style.backgroundImage = `url('${posterUrl}')`;
+      modalTitle.textContent = title;
+      modalMeta.textContent = `Release: ${info.year || '—'} • Episodes: ${info.episodes || '—'} • Studio: ${info.studio || '—'}`;
+      modalSynopsis.textContent = info.synopsis || 'Synopsis not available.';
+      modal.classList.add('active'); modal.setAttribute('aria-hidden','false');
+      searchBtn.onclick = ()=> window.open('https://www.google.com/search?q='+encodeURIComponent(title), '_blank');
+      closeBtn.onclick = closeModal; closeModalBtn.onclick = closeModal;
+    }
+    function closeModal(){ modal.classList.remove('active'); modal.setAttribute('aria-hidden','true'); }
+
+    document.querySelectorAll('.card').forEach(card=>{
+      const title = card.dataset.title || card.querySelector('.meta h4').textContent.trim();
+      const thumb = card.querySelector('.thumb');
+      const bg = thumb ? getComputedStyle(thumb).backgroundImage : '';
+      const posterUrl = (bg && bg.startsWith('url')) ? bg.slice(4,-1).replace(/["']/g,'') : '';
+      card.addEventListener('mouseenter', ()=>{
+        const bubble = card.querySelector('.info-bubble');
+        const info = animeInfo[title] || {};
+        bubble.querySelector('.ib-line').textContent = `Release: ${info.year || '—'} • Episodes: ${info.episodes || '—'}`;
+        card.classList.add('show-bubble');
+      });
+      card.addEventListener('mouseleave', ()=> card.classList.remove('show-bubble'));
+      card.addEventListener('click', ()=> openModalFrom(title, posterUrl || 'images/placeholder.jpg'));
+    });
+
+    modal.addEventListener('click', (e)=>{ if(e.target === modal) closeModal(); });
+  </script>
+</body>
+</html>
